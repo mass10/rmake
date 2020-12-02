@@ -1,0 +1,13 @@
+[settings]
+email = "administrator@example.com"
+threshold = 2147483647
+attributes.attribute01 = "属性01"
+unknown_attribute = true
+
+[[steps]]
+name = "ステップ1"
+depends_on = "ステップ1"
+
+[[steps]]
+name = "ステップ2"
+depends_on = "ステップ1"
