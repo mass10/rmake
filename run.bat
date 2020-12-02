@@ -1,0 +1,2 @@
+@SETLOCAL
+@CALL cargo run -- %*
