@@ -5,11 +5,16 @@ attributes.attribute01 = "属性01"
 unknown_attribute = true
 
 [[steps]]
-name = "my-app"
-depends_on = ["my-lib"]
+name = "my app"
+depends_on = ["my lib"]
 command = ["yarn", "install"]
 
 [[steps]]
-name = "my-lib"
+name = "my lib"
 depends_on = []
 command = ["yarn", "workspace", "my-lib", "tsc", "--build"]
+
+[[steps]]
+name = "reserved step"
+depends_on = ["undefined step"]
+command = ["DIR"]
