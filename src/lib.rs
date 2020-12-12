@@ -37,3 +37,10 @@ pub fn read_text_file_all(path: &str) -> std::result::Result<String, Box<dyn std
 	file.read_to_string(&mut s)?;
 	return Ok(s);
 }
+
+pub fn select(left: &str, right: &str) -> String {
+	return match left {
+		"" => String::from(right),
+		_ => String::from(left),
+	};
+}
