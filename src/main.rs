@@ -41,6 +41,4 @@ fn main() {
 		println!("[ERROR] Error! reason: {}", result.err().unwrap());
 		return;
 	}
-
-	println!("Ok.");
 }
