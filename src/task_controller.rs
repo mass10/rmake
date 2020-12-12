@@ -38,12 +38,12 @@ impl TaskController {
 	/// タスクを実行します。
 	pub fn run(&self, name: &str) -> std::result::Result<bool, Box<dyn std::error::Error>> {
 		// 対象のタスクを検索します。
-		let target_step = self.find_step(name);
-		if target_step.is_none() {
+		let result = self.find_step(name);
+		if result.is_none() {
 			println!("[ERROR] タスクがみつかりませんでした。{}", name);
 			return Ok(false);
 		}
-		let target_step = target_step.unwrap();
+		let target_step = result.unwrap();
 
 		// 依存タスクを先に実行します。
 		let dependencies = target_step.get_depends_on();
