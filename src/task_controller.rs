@@ -60,7 +60,6 @@ impl TaskController {
 		let command_params = target_step.get_command();
 		let exit_code = lib::shell_exec(command_params)?;
 		if exit_code != 0 {
-			println!("[WARN] yarn exited with status: {}", exit_code);
 			return Ok(false);
 		}
 
