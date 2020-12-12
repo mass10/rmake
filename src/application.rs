@@ -17,15 +17,10 @@ impl Application {
 
 		let conf = conf.ok().unwrap();
 
-		// [settings]
 		println!("[TRACE] {:?}", conf.settings);
 
-		// [steps]
 		let step_controller = step_controller::StepController::new(conf.steps);
-		for step in step_controller.get_steps() {
-			// println!("[TRACE] {:?}", step);
-			step.run()?;
-		}
+		step_controller.run("")?;
 
 		return Ok(());
 	}
