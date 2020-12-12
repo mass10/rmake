@@ -21,13 +21,14 @@ impl StepController {
 	fn find_step(&self, name: &str) -> Option<configuration::Step> {
 		// 名前の一致するステップを探して実行します。
 		for step in self.get_steps() {
+			// 名前が指定されなかったときはデフォルト(=先頭)のステップを返します。
 			if name == "" {
 				return Some(step);
 			}
-			if step.get_name() != name {
-				continue;
+			// 名前が一致したステップを返します。
+			if step.get_name() == name {
+				return Some(step);
 			}
-			return Some(step);
 		}
 		return None;
 	}
