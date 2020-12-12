@@ -1,5 +1,7 @@
 extern crate serde_derive;
 
+use super::lib;
+
 #[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
 pub struct Attribute {
 	attribute01: Option<String>,
@@ -9,69 +11,17 @@ pub struct Attribute {
 #[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
 pub struct Step {
 	/// 名前
-	pub name: Option<String>,
+	name: Option<String>,
 	/// 依存するタスク
-	pub depends_on: Option<Vec<String>>,
+	depends_on: Option<Vec<String>>,
 	/// コマンドライン
-	pub command: Option<Vec<String>>,
+	command: Option<Vec<String>>,
 	/// 説明文
-	pub description: Option<String>,
+	description: Option<String>,
 }
 
 impl Step {
-	/// contruct
-	pub fn new() -> Step {
-		let instance = Step {
-			name: Some(String::new()),
-			depends_on: Some(vec![]),
-			command: Some(vec![]),
-			description: Some(String::new()),
-		};
-		return instance;
-	}
-
-	/// タスクの実行
-	pub fn run(&self) -> std::result::Result<i32, Box<dyn std::error::Error>> {
-		// ステップの名前
-		let name = self.get_name();
-		let command_params = self.get_command();
-		let depends_on = self.get_depends_on();
-
-		for step_id in depends_on {
-			let step = Step::new();
-		}
-
-		println!("[TRACE] executing step [{}] ... [{:?}]", name, command_params);
-
-		// プロセスを実行します。
-		let mut command = std::process::Command::new("cmd");
-		// let args: &[&str] = &["/C"];
-		let mut args: Vec<String> = vec![];
-		// args.push(command_params);
-		// args.fill(command_params);
-		args.push("/C".to_string());
-		for e in command_params {
-			args.push(e)
-		}
-
-		let mut command = command.args(args).spawn()?;
-		let response = command.wait();
-		if response.is_err() {
-			return Err(Box::new(response.err().unwrap()));
-		}
-		// 終了ステータスを確認
-		let status = response.unwrap();
-		if !status.success() {
-			// バッチを終了
-			let exit_code = status.code().unwrap();
-			println!("[WARN] yarn exited with status: {}", exit_code);
-			return Ok(exit_code);
-			// std::process::exit(exit_code);
-		}
-
-		return Ok(0);
-	}
-
+	/// 名前を返します。
 	pub fn get_name(&self) -> String {
 		if self.name.is_none() {
 			return String::new();
@@ -80,6 +30,7 @@ impl Step {
 		return name.as_str().to_string();
 	}
 
+	/// コマンドを返します。
 	pub fn get_command(&self) -> Vec<String> {
 		if self.command.is_none() {
 			let result: Vec<String> = vec![];
@@ -89,6 +40,7 @@ impl Step {
 		return command.clone();
 	}
 
+	/// 依存ステップを返します。
 	pub fn get_depends_on(&self) -> Vec<String> {
 		if self.command.is_none() {
 			let result: Vec<String> = vec![];
@@ -125,18 +77,11 @@ impl Configuration {
 		// ファイル全体を文字列として読み込みます。
 		println!("[TRACE] Reading rmake file ... [{}]", path);
 
-		let content = super::lib::read_text_file_all(path)?;
+		let content = lib::read_text_file_all(path)?;
 
 		// toml 文字列を解析します。
 		let conf: Configuration = toml::from_str(&content)?;
 
 		return Ok(conf);
 	}
-	// pub fn new(path: String) -> std::boxed::Box<Configuration> {
-	// 	let instance = Configuration {};
-	// 	instance.configure(path);
-	// 	return std::boxed::Box::new(instance);
-	// }
-
-	// fn configure(&self, path: String) {}
 }
