@@ -12,12 +12,12 @@ pub struct Attribute {
 pub struct Step {
 	/// 名前
 	name: Option<String>,
+	/// 説明文
+	description: Option<String>,
 	/// 依存するタスク
 	depends_on: Option<Vec<String>>,
 	/// コマンドライン
 	command: Option<Vec<String>>,
-	/// 説明文
-	description: Option<String>,
 }
 
 impl Step {
@@ -50,12 +50,7 @@ impl Step {
 		return depends_on.clone();
 	}
 }
-
-#[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
-pub struct Job {
-	pub steps: std::vec::Vec<Step>,
-}
-
+/// ヘッダー情報
 #[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
 pub struct Header {
 	pub email: Option<String>,
@@ -63,6 +58,7 @@ pub struct Header {
 	pub attributes: Option<Attribute>,
 }
 
+/// コンフィギュレーション
 #[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
 pub struct Configuration {
 	pub settings: Header,
