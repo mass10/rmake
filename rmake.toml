@@ -4,21 +4,34 @@ threshold = 2147483647
 attributes.attribute01 = "属性01"
 unknown_attribute = true
 
+#
+# アプリケーション本体をビルドします。
+#
 [[steps]]
+description = "アプリケーション本体のビルド"
 name = "my app"
 depends_on = ["install", "my lib"]
 command = ["yarn", "install"]
 
+#
+#
+#
 [[steps]]
 name = "install"
 depends_on = []
 command = ["yarn", "install"]
 
+#
+#
+#
 [[steps]]
 name = "my lib"
 depends_on = []
 command = ["yarn", "workspace", "my-lib", "tsc", "--build"]
 
+#
+#
+#
 [[steps]]
 name = "reserved step"
 depends_on = ["undefined step"]
