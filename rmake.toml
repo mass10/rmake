@@ -1,4 +1,4 @@
-[settings.bak]
+[settings]
 email = "administrator@example.com"
 threshold = 2147483647
 attributes.attribute01 = "属性01"
@@ -7,7 +7,7 @@ unknown_attribute = true
 #
 # アプリケーション本体をビルドします。
 #
-[[steps]]
+[[tasks]]
 description = "アプリケーション本体のビルド"
 name = "my app"
 depends_on = ["install", "my lib"]
@@ -16,7 +16,7 @@ command = ["yarn", "install"]
 #
 #
 #
-[[steps]]
+[[tasks]]
 name = "install"
 depends_on = []
 command = ["yarn", "install"]
@@ -24,7 +24,7 @@ command = ["yarn", "install"]
 #
 #
 #
-[[steps]]
+[[tasks]]
 name = "my lib"
 depends_on = []
 command = ["yarn", "workspace", "my-lib", "tsc", "--build"]
@@ -32,7 +32,7 @@ command = ["yarn", "workspace", "my-lib", "tsc", "--build"]
 #
 #
 #
-[[steps]]
+[[tasks]]
 name = "reserved step"
 depends_on = ["undefined step"]
 command = ["DIR"]
