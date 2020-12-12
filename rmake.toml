@@ -1,8 +1,7 @@
-[settings]
-email = "administrator@example.com"
-threshold = 2147483647
-attributes.attribute01 = "属性01"
-unknown_attribute = true
+[env]
+ENV01 = "administrator@example.com"
+ENV02 = "2147483647"
+ENV03 = "true"
 
 #
 # アプリケーション本体をビルドします。
