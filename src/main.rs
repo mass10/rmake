@@ -3,7 +3,7 @@ extern crate serde_derive;
 mod application;
 mod configuration;
 mod lib;
-mod step_controller;
+mod task_controller;
 
 /// アプリケーションのコアクラス群
 
@@ -36,7 +36,7 @@ fn main() {
 	}
 
 	let app = application::Application {};
-	let result = app.start(&path);
+	let result = app.start(&path, "");
 	if result.is_err() {
 		println!("[ERROR] Error! reason: {}", result.err().unwrap());
 		return;
