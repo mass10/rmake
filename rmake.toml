@@ -11,5 +11,5 @@ command = ["yarn", "install"]
 
 [[steps]]
 name = "my-lib"
-depends_on = ["ステップ1"]
+depends_on = []
 command = ["yarn", "workspace", "my-lib", "tsc", "--build"]
