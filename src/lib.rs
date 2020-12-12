@@ -1,24 +1,3 @@
-#[allow(unused)]
-/// yarn の実行
-fn yarn(args: &[&str]) -> std::result::Result<(), Box<dyn std::error::Error>> {
-	// yarn プロセスを実行します。
-	let mut command = std::process::Command::new("C:\\Program Files (x86)\\Yarn\\bin\\yarn.cmd");
-	let mut command = command.args(args).spawn()?;
-	let response = command.wait();
-	if response.is_err() {
-		return Err(Box::new(response.err().unwrap()));
-	}
-	// 終了ステータスを確認
-	let status = response.unwrap();
-	if !status.success() {
-		// バッチを終了
-		let exit_code = status.code().unwrap();
-		println!("[WARN] yarn exited with status: {}", exit_code);
-		std::process::exit(exit_code);
-	}
-	return Ok(());
-}
-
 /// コマンドを実行します。
 pub fn shell_exec(command_fields: Vec<String>) -> std::result::Result<i32, Box<dyn std::error::Error>> {
 	// プロセスを実行します。
@@ -41,7 +20,7 @@ pub fn shell_exec(command_fields: Vec<String>) -> std::result::Result<i32, Box<d
 	if !status.success() {
 		// バッチを終了
 		let exit_code = status.code().unwrap();
-		println!("[WARN] yarn exited with status: {}", exit_code);
+		println!("[ERROR] command exited with status: {}", exit_code);
 		return Ok(exit_code);
 		// std::process::exit(exit_code);
 	}
