@@ -40,7 +40,7 @@ impl Step {
 		return command.clone();
 	}
 
-	/// 依存ステップを返します。
+	/// 依存タスクを返します。
 	pub fn get_depends_on(&self) -> Vec<String> {
 		if self.command.is_none() {
 			let result: Vec<String> = vec![];
@@ -51,19 +51,19 @@ impl Step {
 	}
 }
 
-#[derive(serde_derive::Deserialize, Debug)]
+#[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
 pub struct Job {
 	pub steps: std::vec::Vec<Step>,
 }
 
-#[derive(serde_derive::Deserialize, Debug)]
+#[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
 pub struct Header {
 	pub email: Option<String>,
 	pub threshold: Option<u32>,
 	pub attributes: Option<Attribute>,
 }
 
-#[derive(serde_derive::Deserialize, Debug)]
+#[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
 pub struct Configuration {
 	pub settings: Header,
 	pub steps: std::vec::Vec<Step>,
