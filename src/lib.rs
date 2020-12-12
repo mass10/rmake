@@ -19,6 +19,36 @@ fn yarn(args: &[&str]) -> std::result::Result<(), Box<dyn std::error::Error>> {
 	return Ok(());
 }
 
+/// コマンドを実行します。
+pub fn shell_exec(command_fields: Vec<String>) -> std::result::Result<i32, Box<dyn std::error::Error>> {
+	// プロセスを実行します。
+	let mut command = std::process::Command::new("cmd");
+	let mut args: Vec<String> = vec![];
+	args.push("/C".to_string());
+	for e in command_fields {
+		args.push(e.to_string());
+	}
+
+	// 実行
+	let mut command = command.args(args).spawn()?;
+	let response = command.wait();
+	if response.is_err() {
+		return Err(Box::new(response.err().unwrap()));
+	}
+
+	// 終了ステータスを確認
+	let status = response.unwrap();
+	if !status.success() {
+		// バッチを終了
+		let exit_code = status.code().unwrap();
+		println!("[WARN] yarn exited with status: {}", exit_code);
+		return Ok(exit_code);
+		// std::process::exit(exit_code);
+	}
+
+	return Ok(0);
+}
+
 /// テキストファイル全体を読み込んで文字列で返します。
 pub fn read_text_file_all(path: &str) -> std::result::Result<String, Box<dyn std::error::Error>> {
 	use std::io::Read;
