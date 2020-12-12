@@ -8,47 +8,68 @@ mod task_controller;
 /// 使用方法を表示します。
 fn usage() {
 	println!("USAGE:");
+	println!("    rmake");
 }
 
-/// コマンドライン引数を読み取り、コンフィギュレーションファイルへのパスを返します。
-fn configure() -> (String, String) {
+#[derive(std::clone::Clone)]
+struct CommandlineConfiguration {
+	/// rmake ファイルへのパス
+	rmakefile_path: String,
+	/// ターゲットのタスク
+	target_task: String,
+}
+
+/// コマンドライン引数を読み取ります。
+fn configure() -> Option<CommandlineConfiguration> {
+	let mut conf = CommandlineConfiguration {
+		target_task: String::new(),
+		rmakefile_path: String::new(),
+	};
+	let mut current_scope = String::new();
+
 	let args: std::vec::Vec<String> = std::env::args().skip(1).collect();
-	if args.len() == 0 {
-		return (String::from("rmake.toml"), String::new());
-	}
-	if args.len() == 1 {
-		return (String::from("rmake.toml"), String::from(&args[0]));
-	}
-	if args.len() == 2 {
-		if args[0] == "-f" {
-			return (String::from(&args[1]), String::new());
+	for e in args {
+		if e == "--file" {
+			current_scope = e;
+			continue;
 		}
-	}
-	if args.len() == 3 {
-		if args[0] == "-f" {
-			return (String::from(&args[1]), String::from(&args[2]));
-		} else if args[1] == "-f" {
-			return (String::from(&args[2]), String::from(&args[0]));
+		if e == "-f" {
+			current_scope = e;
+			continue;
 		}
+		if e.starts_with("-") {
+			current_scope.clear();
+			println!("Unknown option {}", e);
+			return None;
+		}
+		if current_scope == "-f" || current_scope == "--file" {
+			current_scope.clear();
+			conf.rmakefile_path = e;
+			continue;
+		}
+		conf.target_task = e;
 	}
-	return (String::new(), String::new());
+
+	return Some(conf);
 }
 
 /// エントリーポイント
 fn main() {
 	// コマンドラインオプションを読み取り
-	let (path, target_task) = configure();
-	if path == "" {
+	let result = configure();
+	if result.is_none() {
 		usage();
 		return;
 	}
+
+	let conf = result.unwrap();
 
 	// アプリケーションを初期化します。
 	let app = application::Application {};
 
 	// コマンドライン引数で要求された rmake ファイルを実行します。
 	// タスクが指定されなかった場合は、先頭のタスクが対象になります。
-	let result = app.start(&path, &target_task);
+	let result = app.start(&conf.rmakefile_path, &conf.target_task);
 	if result.is_err() {
 		println!("[ERROR] Error! reason: {}", result.err().unwrap());
 		return;
