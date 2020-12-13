@@ -2,14 +2,9 @@ extern crate serde_derive;
 
 use super::lib;
 
+/// タスク定義
 #[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
-pub struct Attribute {
-	attribute01: Option<String>,
-	attribute02: Option<String>,
-}
-
-#[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
-pub struct Step {
+pub struct Task {
 	/// 名前
 	name: Option<String>,
 	/// 説明文
@@ -20,7 +15,7 @@ pub struct Step {
 	command: Option<Vec<String>>,
 }
 
-impl Step {
+impl Task {
 	/// 名前を返します。
 	pub fn get_name(&self) -> String {
 		if self.name.is_none() {
@@ -50,33 +45,35 @@ impl Step {
 		return depends_on.clone();
 	}
 }
-/// ヘッダー情報
-#[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
-pub struct Header {
-	pub email: Option<String>,
-	pub threshold: Option<u32>,
-	pub attributes: Option<Attribute>,
-}
 
 /// コンフィギュレーション
 #[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
 pub struct Configuration {
-	pub settings: Header,
-	pub steps: std::vec::Vec<Step>,
+	/// 変数定義
+	pub env: Option<std::collections::btree_map::BTreeMap<String, String>>,
+	/// タスク定義
+	pub tasks: std::vec::Vec<Task>,
 }
 
 impl Configuration {
 	/// 新しいインスタンスを返します。
-	pub fn new(path: &str) -> std::result::Result<Configuration, Box<dyn std::error::Error>> {
+	pub fn new(rmakefile_path: &str) -> std::result::Result<Configuration, Box<dyn std::error::Error>> {
 		extern crate toml;
 
-		// ファイル全体を文字列として読み込みます。
-		println!("[TRACE] Reading rmake file ... [{}]", path);
+		let rmakefile_path = lib::select(rmakefile_path, "rmake.toml");
 
-		let content = lib::read_text_file_all(path)?;
+		// ファイル全体を文字列として読み込みます。
+		// println!("[TRACE] Reading rmake file ... [{}]", &rmakefile_path);
+
+		let content = lib::read_text_file_all(&rmakefile_path)?;
 
 		// toml 文字列を解析します。
 		let conf: Configuration = toml::from_str(&content)?;
+
+		if conf.env.is_some() {
+			let env = conf.env.as_ref().unwrap();
+			println!("[TRACE] {:?}", &env.keys());
+		}
 
 		return Ok(conf);
 	}
