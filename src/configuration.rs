@@ -52,7 +52,7 @@ pub struct Configuration {
 	/// 変数定義
 	pub env: Option<std::collections::btree_map::BTreeMap<String, String>>,
 	/// タスク定義
-	pub tasks: std::vec::Vec<Task>,
+	pub tasks: Vec<Task>,
 }
 
 impl Configuration {
