@@ -1,3 +1,12 @@
 # rmake
 
-* ミニマルなタスクランナー
+* Simple task runner.
+
+# Getting started
+
+```bash
+git clone https://github.com/mass10/rmake.git
+cargo install rmake
+```
+
+* Not in crates.io now.
