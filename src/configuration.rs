@@ -37,7 +37,7 @@ impl Task {
 
 	/// 依存タスクを返します。
 	pub fn get_depends_on(&self) -> Vec<String> {
-		if self.command.is_none() {
+		if self.depends_on.is_none() {
 			let result: Vec<String> = vec![];
 			return result.clone();
 		}
