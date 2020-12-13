@@ -14,12 +14,12 @@ impl TaskController {
 		return instance;
 	}
 
-	pub fn get_tasks(&self) -> Vec<configuration::Task> {
-		return self.tasks.clone();
+	pub fn get_tasks(&self) -> &Vec<configuration::Task> {
+		return &self.tasks;
 	}
 
 	/// タスクを名前で検索します。
-	fn find_first_task(&self) -> Option<configuration::Task> {
+	fn find_first_task(&self) -> Option<&configuration::Task> {
 		for task in self.get_tasks() {
 			return Some(task);
 		}
@@ -27,7 +27,7 @@ impl TaskController {
 	}
 
 	/// タスクを名前で検索します。
-	fn find_task(&self, name: &str) -> Option<configuration::Task> {
+	fn find_task(&self, name: &str) -> Option<&configuration::Task> {
 		// 名前の一致するタスクを探して実行します。
 		for task in self.get_tasks() {
 			// 名前が一致したタスクを返します。
