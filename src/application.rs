@@ -5,6 +5,11 @@ use super::task_controller;
 pub struct Application {}
 
 impl Application {
+	pub fn new() -> Application {
+		let instance = Application {};
+		return instance;
+	}
+
 	/// 指定された rmake ファイルを実行します。
 	pub fn start(&self, rmakefile_path: &str, target_task_name: &str) -> std::result::Result<(), Box<dyn std::error::Error>> {
 		println!("#");
