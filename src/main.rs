@@ -65,7 +65,7 @@ fn main() {
 	let conf = result.unwrap();
 
 	// アプリケーションを初期化します。
-	let app = application::Application {};
+	let app = application::Application::new();
 
 	// コマンドライン引数で要求された rmake ファイルを実行します。
 	// タスクが指定されなかった場合は、先頭のタスクが対象になります。
