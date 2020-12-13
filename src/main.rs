@@ -27,7 +27,7 @@ fn configure() -> Option<CommandlineConfiguration> {
 	};
 	let mut current_scope = String::new();
 
-	let args: std::vec::Vec<String> = std::env::args().skip(1).collect();
+	let args: Vec<String> = std::env::args().skip(1).collect();
 	for e in args {
 		if e == "--file" {
 			current_scope = e;
