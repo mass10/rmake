@@ -1,5 +1,4 @@
 use super::configuration;
-
 use super::lib;
 
 /// タスクランナー
