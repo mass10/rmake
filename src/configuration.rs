@@ -21,8 +21,16 @@ impl Task {
 		if self.name.is_none() {
 			return String::new();
 		}
-		let name = self.name.as_ref().unwrap();
-		return name.as_str().to_string();
+		return self.name.clone().unwrap();
+	}
+
+	/// 説明文を返します。
+	#[allow(unused)]
+	pub fn get_description(&self) -> String {
+		if self.description.is_none() {
+			return String::new();
+		}
+		return self.description.clone().unwrap();
 	}
 
 	/// コマンドを返します。
