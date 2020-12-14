@@ -3,20 +3,24 @@ extern crate serde_derive;
 mod application;
 mod configuration;
 mod lib;
+mod myerror;
 mod task_controller;
 
 /// 使用方法を表示します。
 fn usage() {
 	println!("USAGE:");
-	println!("    rmake --help");
+	println!("    > rmake --help");
+	println!("");
 	println!("        Show this message.");
 	println!("");
-	println!("    rmake");
-	println!("    rmake --file rmake.toml");
+	println!("    > rmake");
+	println!("    > rmake --file rmake.toml");
+	println!("");
 	println!("        Run 1st task in rmake.toml");
 	println!("");
-	println!("    rmake --file rmake.toml TASK-1");
+	println!("    > rmake --file rmake.toml TASK-1");
 	println!("");
+	println!("        Run task [[TASK-1]]");
 	println!("");
 }
 
@@ -39,6 +43,7 @@ fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
 	let args: Vec<String> = std::env::args().skip(1).collect();
 	for e in args {
 		if e == "--help" || e == "-h" {
+			usage();
 			return Err(());
 		}
 		if e == "--file" || e == "-f" {
@@ -48,6 +53,7 @@ fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
 		if e.starts_with("-") {
 			current_scope.clear();
 			println!("Unknown option {}", e);
+			usage();
 			return Err(());
 		}
 		if current_scope == "-f" || current_scope == "--file" {
@@ -66,7 +72,6 @@ fn main() {
 	// コマンドラインオプションを読み取り
 	let result = configure();
 	if result.is_err() {
-		usage();
 		return;
 	}
 
