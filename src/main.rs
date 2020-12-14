@@ -43,7 +43,6 @@ fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
 	let args: Vec<String> = std::env::args().skip(1).collect();
 	for e in args {
 		if e == "--help" || e == "-h" {
-			usage();
 			return Err(());
 		}
 		if e == "--file" || e == "-f" {
@@ -53,7 +52,6 @@ fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
 		if e.starts_with("-") {
 			current_scope.clear();
 			println!("Unknown option {}", e);
-			usage();
 			return Err(());
 		}
 		if current_scope == "-f" || current_scope == "--file" {
@@ -72,6 +70,7 @@ fn main() {
 	// コマンドラインオプションを読み取り
 	let result = configure();
 	if result.is_err() {
+		usage();
 		return;
 	}
 
