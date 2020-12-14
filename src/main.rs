@@ -29,7 +29,7 @@ struct CommandlineConfiguration {
 }
 
 /// コマンドライン引数を読み取ります。
-fn configure() -> Option<CommandlineConfiguration> {
+fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
 	let mut conf = CommandlineConfiguration {
 		target_task: String::new(),
 		rmakefile_path: String::new(),
@@ -39,7 +39,7 @@ fn configure() -> Option<CommandlineConfiguration> {
 	let args: Vec<String> = std::env::args().skip(1).collect();
 	for e in args {
 		if e == "--help" || e == "-h" {
-			return None;
+			return Err(());
 		}
 		if e == "--file" || e == "-f" {
 			current_scope = e;
@@ -48,7 +48,7 @@ fn configure() -> Option<CommandlineConfiguration> {
 		if e.starts_with("-") {
 			current_scope.clear();
 			println!("Unknown option {}", e);
-			return None;
+			return Err(());
 		}
 		if current_scope == "-f" || current_scope == "--file" {
 			current_scope.clear();
@@ -58,14 +58,14 @@ fn configure() -> Option<CommandlineConfiguration> {
 		conf.target_task = e;
 	}
 
-	return Some(conf);
+	return Ok(conf);
 }
 
 /// エントリーポイント
 fn main() {
 	// コマンドラインオプションを読み取り
 	let result = configure();
-	if result.is_none() {
+	if result.is_err() {
 		usage();
 		return;
 	}
