@@ -8,7 +8,16 @@ mod task_controller;
 /// 使用方法を表示します。
 fn usage() {
 	println!("USAGE:");
+	println!("    rmake --help");
+	println!("        Show this message.");
+	println!("");
 	println!("    rmake");
+	println!("    rmake --file rmake.toml");
+	println!("        Run 1st task in rmake.toml");
+	println!("");
+	println!("    rmake --file rmake.toml TASK-1");
+	println!("");
+	println!("");
 }
 
 #[derive(std::clone::Clone)]
@@ -29,11 +38,10 @@ fn configure() -> Option<CommandlineConfiguration> {
 
 	let args: Vec<String> = std::env::args().skip(1).collect();
 	for e in args {
-		if e == "--file" {
-			current_scope = e;
-			continue;
+		if e == "--help" || e == "-h" {
+			return None;
 		}
-		if e == "-f" {
+		if e == "--file" || e == "-f" {
 			current_scope = e;
 			continue;
 		}
