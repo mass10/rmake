@@ -10,16 +10,18 @@ mod task_controller;
 fn usage() {
 	println!("USAGE:");
 	println!("    > rmake --help");
-	println!("");
 	println!("        Show this message.");
 	println!("");
 	println!("    > rmake");
-	println!("    > rmake --file rmake.toml");
-	println!("");
 	println!("        Run 1st task in rmake.toml");
 	println!("");
-	println!("    > rmake --file rmake.toml TASK-1");
+	println!("    > rmake --file rmake.toml");
+	println!("        Run 1st task in rmake.toml");
 	println!("");
+	println!("    > rmake TASK-1");
+	println!("        Run task [[TASK-1]]");
+	println!("");
+	println!("    > rmake --file rmake.toml TASK-1");
 	println!("        Run task [[TASK-1]]");
 	println!("");
 }
