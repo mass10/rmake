@@ -4,17 +4,25 @@ use super::lib;
 /// タスクランナー
 pub struct TaskController {
 	/// タスク実行記録
-	tasks: Vec<configuration::Task>,
+	tasks: Vec<Box<configuration::Task>>,
 }
 
 impl TaskController {
 	/// construction
 	pub fn new(tasks: Vec<configuration::Task>) -> TaskController {
-		let instance = TaskController { tasks: tasks };
+		// タスクリストを複製して
+		let mut new_tasks: Vec<Box<configuration::Task>> = vec![];
+		for task in tasks {
+			new_tasks.push(Box::new(task));
+		}
+
+		// インスタンスを初期化
+		let instance = TaskController { tasks: new_tasks };
+
 		return instance;
 	}
 
-	pub fn get_tasks(&self) -> &Vec<configuration::Task> {
+	pub fn get_tasks(&self) -> &Vec<Box<configuration::Task>> {
 		return &self.tasks;
 	}
 
