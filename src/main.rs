@@ -26,7 +26,7 @@ fn usage() {
 	println!("");
 }
 
-#[derive(std::clone::Clone)]
+#[derive(Clone)]
 struct CommandlineConfiguration {
 	/// rmake ファイルへのパス
 	rmakefile_path: String,

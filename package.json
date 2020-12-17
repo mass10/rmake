@@ -1,0 +1,13 @@
+{
+    "name": "rmake",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "git@github.com:mass10/rmake.git",
+    "author": "Irisawa Masaru <mass10.github@gmail.com>",
+    "license": "MIT",
+    "devDependencies": {},
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ]
+}

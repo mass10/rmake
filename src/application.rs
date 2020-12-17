@@ -2,11 +2,13 @@ use super::configuration;
 use super::task_controller;
 
 /// アプリケーション本体の定義
-pub struct Application {}
+pub struct Application {
+	x: i32,
+}
 
 impl Application {
 	pub fn new() -> Application {
-		let instance = Application {};
+		let instance = Application { x: 0 };
 		return instance;
 	}
 
