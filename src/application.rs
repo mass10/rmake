@@ -50,7 +50,7 @@ impl Application {
 		let conf = conf.ok().unwrap();
 
 		//
-		// Executin tasks
+		// Execute tasks
 		//
 		let mut controller = task_controller::TaskController::new(conf.tasks);
 		controller.run(target_task_name)?;
