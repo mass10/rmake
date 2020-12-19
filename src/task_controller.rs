@@ -1,10 +1,14 @@
 use super::configuration;
 use super::lib;
+use super::status_holder;
 
 /// タスクランナー
 pub struct TaskController {
 	/// タスク実行記録
 	tasks: Vec<Box<configuration::Task>>,
+	/// タスク終了ステータス
+	#[allow(unused)]
+	status: status_holder::StatusHolder,
 }
 
 impl TaskController {
@@ -17,7 +21,10 @@ impl TaskController {
 		}
 
 		// インスタンスを初期化
-		let instance = TaskController { tasks: new_tasks };
+		let instance = TaskController {
+			tasks: new_tasks,
+			status: status_holder::StatusHolder::new(),
+		};
 
 		return instance;
 	}
