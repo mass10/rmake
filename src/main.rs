@@ -4,6 +4,7 @@ mod application;
 mod configuration;
 mod lib;
 mod myerror;
+mod status_holder;
 mod task_controller;
 
 /// 使用方法を表示します。
