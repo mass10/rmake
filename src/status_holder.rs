@@ -11,7 +11,21 @@ impl StatusHolder {
 	}
 
 	#[allow(unused)]
-	pub fn get_map(&self) -> &std::collections::HashMap<String, String> {
-		return &self.status;
+	pub fn get_map(&mut self) -> &mut std::collections::HashMap<String, String> {
+		return &mut self.status;
+	}
+
+	#[allow(unused)]
+	pub fn set_status(&mut self, name: String, status: String) {
+		self.status.insert(name.to_string(), status.to_string());
+	}
+
+	#[allow(unused)]
+	pub fn get_status(&mut self, name: String) -> String {
+		let status = self.status.get(&name.to_string());
+		if status.is_none() {
+			return String::new();
+		}
+		return status.unwrap().clone();
 	}
 }
