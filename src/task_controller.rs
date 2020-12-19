@@ -6,9 +6,10 @@ use super::status_holder;
 pub struct TaskController {
 	/// タスク実行記録
 	tasks: Vec<Box<configuration::Task>>,
+
 	/// タスク終了ステータス
 	#[allow(unused)]
-	status: status_holder::StatusHolder,
+	task_status: status_holder::StatusHolder,
 }
 
 impl TaskController {
@@ -23,28 +24,28 @@ impl TaskController {
 		// インスタンスを初期化
 		let instance = TaskController {
 			tasks: new_tasks,
-			status: status_holder::StatusHolder::new(),
+			task_status: status_holder::StatusHolder::new(),
 		};
 
 		return instance;
 	}
 
-	pub fn get_tasks(&self) -> &Vec<Box<configuration::Task>> {
-		return &self.tasks;
+	pub fn get_tasks(&mut self) -> &mut Vec<Box<configuration::Task>> {
+		return &mut self.tasks;
 	}
 
 	/// タスクを名前で検索します。
-	fn find_first_task(&self) -> Option<&configuration::Task> {
-		for task in self.get_tasks() {
+	fn find_first_task(&mut self) -> Option<&mut configuration::Task> {
+		for task in self.get_tasks().into_iter() {
 			return Some(task);
 		}
 		return None;
 	}
 
 	/// タスクを名前で検索します。
-	fn find_task(&self, name: &str) -> Option<&configuration::Task> {
+	fn find_task(&mut self, name: &str) -> Option<&mut configuration::Task> {
 		// 名前の一致するタスクを探して実行します。
-		for task in self.get_tasks() {
+		for task in self.get_tasks().iter_mut() {
 			// 名前が一致したタスクを返します。
 			if task.get_name() == name {
 				return Some(task);
@@ -54,7 +55,7 @@ impl TaskController {
 	}
 
 	/// タスクを実行します。
-	pub fn run(&self, name: &str) -> std::result::Result<bool, Box<dyn std::error::Error>> {
+	pub fn run(&mut self, name: &str) -> std::result::Result<bool, Box<dyn std::error::Error>> {
 		// 対象のタスクを検索します。
 		let result = match name {
 			"" => self.find_first_task(),
@@ -64,24 +65,39 @@ impl TaskController {
 			println!("[ERROR] タスクがみつかりませんでした。{}", name);
 			return Ok(false);
 		}
-		let target_task = result.unwrap();
+		let target_task = result.unwrap().clone();
+
+		{
+			let status = self.task_status.get_status(target_task.get_name());
+			if status == "COMPLETED" {
+				return Ok(true);
+			}
+		}
 
 		// 依存タスクを先に実行します。
-		let dependencies = target_task.get_depends_on();
-		for task in dependencies {
-			if !self.run(&task)? {
-				println!("[ERROR] タスクの実行に失敗しています。処理はキャンセルされました。");
+		{
+			for task in target_task.get_depends_on() {
+				if !self.run(&task)? {
+					println!("[ERROR] タスクの実行に失敗しています。処理はキャンセルされました。");
+					return Ok(false);
+				}
+			}
+		}
+
+		// ターゲットのタスクを実行します。
+		{
+			println!("");
+			println!("[TRACE] executing task... [{}]", target_task.get_name());
+			let command_params = target_task.get_command();
+			let exit_code = lib::shell_exec(command_params)?;
+			if exit_code != 0 {
 				return Ok(false);
 			}
 		}
 
-		println!("[TRACE] タスクを実行中... [{}]", target_task.get_name());
-
-		// ターゲットのタスクを実行します。
-		let command_params = target_task.get_command();
-		let exit_code = lib::shell_exec(command_params)?;
-		if exit_code != 0 {
-			return Ok(false);
+		// タスクのステータスを更新します。
+		{
+			self.task_status.set_status(target_task.get_name(), String::from("COMPLETED"));
 		}
 
 		return Ok(true);
