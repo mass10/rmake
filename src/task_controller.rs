@@ -56,17 +56,18 @@ impl TaskController {
 
 	/// タスクを実行します。
 	pub fn run(&mut self, name: &str) -> std::result::Result<bool, Box<dyn std::error::Error>> {
-		// 対象のタスクを検索します。
+		// Find target task.
 		let result = match name {
 			"" => self.find_first_task(),
 			_ => self.find_task(name),
 		};
 		if result.is_none() {
-			println!("[ERROR] タスクがみつかりませんでした。{}", name);
+			println!("[ERROR] Task not found. [{}]", name);
 			return Ok(false);
 		}
 		let target_task = result.unwrap().clone();
 
+		// Verify task status.
 		{
 			let status = self.task_status.get_status(target_task.get_name());
 			if status == "COMPLETED" {
@@ -74,7 +75,7 @@ impl TaskController {
 			}
 		}
 
-		// 依存タスクを先に実行します。
+		// Execute dependencies first.
 		{
 			for task in target_task.get_depends_on() {
 				if !self.run(&task)? {
@@ -84,7 +85,7 @@ impl TaskController {
 			}
 		}
 
-		// ターゲットのタスクを実行します。
+		// Execute target task.
 		{
 			println!("");
 			println!("[TRACE] executing task... [{}]", target_task.get_name());
@@ -95,7 +96,7 @@ impl TaskController {
 			}
 		}
 
-		// タスクのステータスを更新します。
+		// Mark completed.
 		{
 			self.task_status.set_status(target_task.get_name(), String::from("COMPLETED"));
 		}
