@@ -8,30 +8,39 @@ ENV03 = "true"
 #
 [[tasks]]
 description = "アプリケーション本体のビルド"
-name = "my app"
-depends_on = ["install", "my lib"]
+name = "my-application"
+depends_on = ["install", "my-lib-a", "my-lib-b"]
 command = ["yarn", "install"]
 
 #
-#
+# ワークスペースを更新します。
 #
 [[tasks]]
+description = "セットアップタスクです。"
 name = "install"
 depends_on = []
 command = ["yarn", "install"]
 
 #
-#
+# 共通ライブラリ A をビルドします。
 #
 [[tasks]]
-name = "my lib"
-depends_on = []
-command = ["yarn", "workspace", "my-lib", "tsc", "--build"]
+name = "my-lib-a"
+depends_on = ["common"]
+command = ["yarn", "workspace", "my-lib-a", "tsc", "--build"]
 
 #
-#
+# コア共通モジュールをビルドします。
 #
 [[tasks]]
-name = "reserved step"
-depends_on = ["undefined step"]
-command = ["DIR"]
+name = "common"
+depends_on = []
+command = ["yarn", "workspace", "common", "tsc", "--build"]
+
+#
+# 共通ライブラリ B をビルドします。
+#
+[[tasks]]
+name = "my-lib-b"
+depends_on = ["common"]
+command = ["yarn", "workspace", "my-lib-b", "tsc", "--build"]
