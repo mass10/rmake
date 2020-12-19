@@ -1,18 +1,21 @@
 use super::configuration;
 use super::task_controller;
 
-/// アプリケーション本体の定義
+/// Application structure.
 pub struct Application {
 	_x: i32,
 }
 
 impl Application {
+	///
+	/// Return a new instance of Application.
+	///
 	pub fn new() -> Application {
 		let instance = Application { _x: 0 };
 		return instance;
 	}
 
-	/// 指定された rmake ファイルを実行します。
+	/// Execute requested rmake.
 	pub fn start(&self, rmakefile_path: &str, target_task_name: &str) -> std::result::Result<(), Box<dyn std::error::Error>> {
 		//
 		// shows banner
@@ -20,36 +23,36 @@ impl Application {
 		println!("###############################################################################");
 		println!("###############################################################################");
 		println!("###############################################################################");
-		println!("##              ###############################################################");
-		println!("###              ##############################################################");
-		println!("###    ##         ############################   ##############################");
-		println!("###    ###        #############################   #############################");
+		println!("##              ###############################    ############################");
+		println!("###              ###############################   ############################");
+		println!("###    ##         ##############################   ############################");
 		println!("###    ###        ##############################   ############################");
-		println!("###    ##         #########################  ###   #     ##         ###########");
-		println!("###             ###    ##       ###           ##   #    ##  ####     ##########");
-		println!("###    ##        ###             ###          ##     #####  ####     ##########");
+		println!("###    ###        ##############################   ############################");
+		println!("###    ##         #########################  ###   #     ##          ##########");
+		println!("###             ###    ##       ###           ##        ##  ##        #########");
+		println!("###    ##        ###             ###          ##     #####  ##        #########");
 		println!("###    ###        ##   ##  #     ###  ##      ##         #        #############");
 		println!("###    ###        ##   ##  #     ###  ##      ##    #    #  ######    #########");
-		println!("##     ##         ##   #####     ##           ##    #    ##          ##########");
+		println!("##     ##         ##   ####      ##           ##    #    ##          ##########");
 		println!("###############################################################################");
 		println!("## RMAKE ver. 0.1.0                                                          ##");
 		println!("###############################################################################");
 		println!("");
 
 		//
-		// configuration
+		// Configuration
 		//
 		let conf = configuration::Configuration::new(rmakefile_path);
 		if conf.is_err() {
-			println!("[ERROR] {}", conf.err().unwrap());
+			println!("[ERROR] Configuration filed. reason: {}", conf.err().unwrap());
 			return Ok(());
 		}
 		let conf = conf.ok().unwrap();
 
 		//
-		// executin tasks
+		// Executin tasks
 		//
-		let controller = task_controller::TaskController::new(conf.tasks);
+		let mut controller = task_controller::TaskController::new(conf.tasks);
 		controller.run(target_task_name)?;
 
 		return Ok(());
