@@ -7,7 +7,7 @@ mod myerror;
 mod status_holder;
 mod task_controller;
 
-/// 使用方法を表示します。
+/// Shows usage.
 fn usage() {
 	println!("USAGE:");
 	println!("    > rmake --help");
@@ -27,6 +27,9 @@ fn usage() {
 	println!("");
 }
 
+///
+/// commandline options
+///
 #[derive(Clone)]
 struct CommandlineConfiguration {
 	/// rmake ファイルへのパス
@@ -35,7 +38,7 @@ struct CommandlineConfiguration {
 	target_task: String,
 }
 
-/// コマンドライン引数を読み取ります。
+/// Reads commandline options
 fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
 	let mut conf = CommandlineConfiguration {
 		target_task: String::new(),
@@ -68,9 +71,9 @@ fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
 	return Ok(conf);
 }
 
-/// エントリーポイント
+/// Entrypoint
 fn main() {
-	// コマンドラインオプションを読み取り
+	// read commandline options
 	let result = configure();
 	if result.is_err() {
 		usage();
@@ -79,7 +82,7 @@ fn main() {
 
 	let conf = result.unwrap();
 
-	// アプリケーションを初期化します。
+	// Initialize application
 	let app = application::Application::new();
 
 	// コマンドライン引数で要求された rmake ファイルを実行します。
