@@ -1,3 +1,6 @@
+///
+/// Application defined error
+///
 #[derive(Debug, Clone)]
 pub struct ApplicationError {
 	pub description: String,
