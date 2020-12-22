@@ -1,3 +1,6 @@
+///
+/// Status holder
+///
 pub struct StatusHolder {
 	status: std::collections::HashMap<String, String>,
 }
