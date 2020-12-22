@@ -5,8 +5,7 @@
 # Getting started
 
 ```bash
-git clone https://github.com/mass10/rmake.git
-cargo install --path rmake
+cargo install rmake
 ```
 
 * Not in crates.io now.
