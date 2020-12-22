@@ -1,6 +1,6 @@
-# rmake
+# About
 
-* Simple task runner.
+* Simple task runner as `make`.
 
 # Getting started
 
@@ -8,9 +8,7 @@
 cargo install rmake
 ```
 
-* Not in crates.io now.
-
-# rmake.toml
+# rmake.toml is as
 
 ```
 [env]
