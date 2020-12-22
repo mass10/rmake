@@ -5,7 +5,7 @@ authors = ["Irisawa Masaru <mass10.github@gmail.com>"]
 edition = "2018"
 license = "MIT"
 description = "Simple make by Rust"
-documentation = ""
+documentation = "https://github.com/mass10/rmake"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
