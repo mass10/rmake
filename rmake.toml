@@ -3,65 +3,10 @@ MY_ENV_01 = "administrator@example.com"
 MY_ENV_02 = "2147483647"
 MY_ENV_03 = "true"
 
-#
-# アプリケーション本体をビルドします。
-#
 [[tasks]]
 description = "テスト"
 name = "test1"
 depends_on = []
 command = [
-	["echo", "%RUST_ENV%"]
-]
-
-#
-# アプリケーション本体をビルドします。
-#
-[[tasks]]
-description = "アプリケーション本体のビルド"
-name = "my-application"
-depends_on = ["install", "my-lib-a", "my-lib-b"]
-command = [
-	["yarn", "workspace", "my-app", "tsc", "--build"]
-]
-
-#
-# ワークスペースを更新します。
-#
-[[tasks]]
-description = "セットアップタスクです。"
-name = "install"
-depends_on = []
-command = [
-	["yarn", "install"]
-]
-
-#
-# 共通ライブラリ A をビルドします。
-#
-[[tasks]]
-name = "my-lib-a"
-depends_on = ["common"]
-command = [
-	["yarn", "workspace", "my-lib-a", "tsc", "--build"]
-]
-
-#
-# コア共通モジュールをビルドします。
-#
-[[tasks]]
-name = "common"
-depends_on = []
-command = [
-	["yarn", "workspace", "common", "tsc", "--build"]
-]
-
-#
-# 共通ライブラリ B をビルドします。
-#
-[[tasks]]
-name = "my-lib-b"
-depends_on = ["common"]
-command = [
-	["yarn", "workspace", "my-lib-b", "tsc", "--build"]
+	["echo", "%MY_ENV_02%"]
 ]
