@@ -2,12 +2,13 @@ use super::configuration;
 use super::lib;
 use super::status_holder;
 
-/// タスクランナー
+///
+/// Task runner structure
+///
 pub struct TaskController {
-	/// タスク実行記録
+	/// task definitions
 	tasks: Vec<Box<configuration::Task>>,
-
-	/// タスク終了ステータス
+	/// task statuses
 	#[allow(unused)]
 	task_status: status_holder::StatusHolder,
 }
@@ -15,13 +16,13 @@ pub struct TaskController {
 impl TaskController {
 	/// construction
 	pub fn new(tasks: Vec<configuration::Task>) -> TaskController {
-		// タスクリストを複製して
+		// Duplicates task definitions
 		let mut new_tasks: Vec<Box<configuration::Task>> = vec![];
 		for task in tasks {
 			new_tasks.push(Box::new(task));
 		}
 
-		// インスタンスを初期化
+		// Creating a new instance
 		let instance = TaskController {
 			tasks: new_tasks,
 			task_status: status_holder::StatusHolder::new(),
@@ -30,23 +31,24 @@ impl TaskController {
 		return instance;
 	}
 
+	/// Retrieve all task definitions
 	pub fn get_tasks(&mut self) -> &mut Vec<Box<configuration::Task>> {
 		return &mut self.tasks;
 	}
 
-	/// タスクを名前で検索します。
+	/// Retrieve the first task definition
 	fn find_first_task(&mut self) -> Option<&mut configuration::Task> {
-		for task in self.get_tasks().into_iter() {
+		for task in self.get_tasks() {
 			return Some(task);
 		}
 		return None;
 	}
 
-	/// タスクを名前で検索します。
+	/// Find task by its name
 	fn find_task(&mut self, name: &str) -> Option<&mut configuration::Task> {
-		// 名前の一致するタスクを探して実行します。
-		for task in self.get_tasks().iter_mut() {
-			// 名前が一致したタスクを返します。
+		// Enumerating tasks
+		for task in self.get_tasks() {
+			// Returns target task
 			if task.get_name() == name {
 				return Some(task);
 			}
@@ -54,7 +56,7 @@ impl TaskController {
 		return None;
 	}
 
-	/// タスクを実行します。
+	/// Execute a task
 	pub fn run(&mut self, name: &str) -> std::result::Result<bool, Box<dyn std::error::Error>> {
 		// Find target task.
 		let result = match name {
@@ -67,7 +69,7 @@ impl TaskController {
 		}
 		let target_task = result.unwrap().clone();
 
-		// Verify task status.
+		// Verify task status
 		{
 			let status = self.task_status.get_status(target_task.get_name());
 			if status == "COMPLETED" {
@@ -75,28 +77,31 @@ impl TaskController {
 			}
 		}
 
-		// Execute dependencies first.
+		// Execute dependencies first
 		{
 			for task in target_task.get_depends_on() {
 				if !self.run(&task)? {
-					println!("[ERROR] タスクの実行に失敗しています。処理はキャンセルされました。");
+					println!("[ERROR] Task failed. Operation canceled.");
 					return Ok(false);
 				}
 			}
 		}
 
-		// Execute target task.
+		// Execute target task
 		{
 			println!("");
+			println!("");
 			println!("[TRACE] executing task... [{}]", target_task.get_name());
-			let command_params = target_task.get_command();
-			let exit_code = lib::shell_exec(command_params)?;
-			if exit_code != 0 {
-				return Ok(false);
+
+			for commands in target_task.get_command() {
+				let exit_code = lib::shell_exec(commands)?;
+				if exit_code != 0 {
+					return Ok(false);
+				}
 			}
 		}
 
-		// Mark completed.
+		// Mark completed
 		{
 			self.task_status.set_status(target_task.get_name(), String::from("COMPLETED"));
 		}
