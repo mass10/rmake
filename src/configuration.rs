@@ -2,21 +2,24 @@ extern crate serde_derive;
 
 use super::lib;
 
-/// タスク定義
+///
+/// Task definition
+///
 #[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
 pub struct Task {
-	/// 名前
+	/// Its name
 	name: Option<String>,
-	/// 説明文
+	/// Description
 	description: Option<String>,
-	/// 依存するタスク
+	/// Dependencies
 	depends_on: Option<Vec<String>>,
-	/// コマンドライン
-	command: Option<Vec<String>>,
+	/// Command and options
+	command: Option<Vec<Vec<String>>>,
 }
 
 impl Task {
-	/// 名前を返します。
+	/// Returns name
+	#[allow(unused)]
 	pub fn get_name(&self) -> String {
 		if self.name.is_none() {
 			return String::new();
@@ -24,7 +27,7 @@ impl Task {
 		return self.name.clone().unwrap();
 	}
 
-	/// 説明文を返します。
+	/// Returns description
 	#[allow(unused)]
 	pub fn get_description(&self) -> String {
 		if self.description.is_none() {
@@ -33,17 +36,19 @@ impl Task {
 		return self.description.clone().unwrap();
 	}
 
-	/// コマンドを返します。
-	pub fn get_command(&self) -> Vec<String> {
+	/// Returns command and options
+	#[allow(unused)]
+	pub fn get_command(&self) -> Vec<Vec<String>> {
 		if self.command.is_none() {
-			let result: Vec<String> = vec![];
+			let result: Vec<Vec<String>> = vec![];
 			return result.clone();
 		}
 		let command = self.command.as_ref().unwrap();
 		return command.clone();
 	}
 
-	/// 依存タスクを返します。
+	/// Returns dependencies
+	#[allow(unused)]
 	pub fn get_depends_on(&self) -> Vec<String> {
 		if self.depends_on.is_none() {
 			let result: Vec<String> = vec![];
@@ -54,33 +59,40 @@ impl Task {
 	}
 }
 
-/// コンフィギュレーション
+///
+/// Configuration structure
+///
 #[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
 pub struct Configuration {
-	/// 変数定義
+	/// Variables
 	pub env: Option<std::collections::btree_map::BTreeMap<String, String>>,
-	/// タスク定義
+	/// Tasks definition
 	pub tasks: Vec<Task>,
 }
 
 impl Configuration {
-	/// 新しいインスタンスを返します。
+	/// Returns a new instance of Configuration
 	pub fn new(rmakefile_path: &str) -> std::result::Result<Configuration, Box<dyn std::error::Error>> {
 		extern crate toml;
 
+		// rmake configuration file
 		let rmakefile_path = lib::select(rmakefile_path, "rmake.toml");
 
-		// ファイル全体を文字列として読み込みます。
-		// println!("[TRACE] Reading rmake file ... [{}]", &rmakefile_path);
-
+		// Read the whole content of given file
+		println!("[TRACE] Reading rmake file ... [{}]", &rmakefile_path);
+		println!();
 		let content = lib::read_text_file_all(&rmakefile_path)?;
 
-		// toml 文字列を解析します。
+		// Read TOML file
 		let conf: Configuration = toml::from_str(&content)?;
 
+		// Retrieves and set the environment variables from configuration file
 		if conf.env.is_some() {
 			let env = conf.env.as_ref().unwrap();
-			println!("[TRACE] {:?}", &env.keys());
+			for (k, v) in env {
+				println!("[TRACE] ENVIRONMENT [{}]=[{}]", k, v);
+				std::env::set_var(k, v);
+			}
 		}
 
 		return Ok(conf);
