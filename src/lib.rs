@@ -1,6 +1,6 @@
-/// コマンドを実行します。
+/// execute command in os shell
 pub fn shell_exec(command_fields: Vec<String>) -> std::result::Result<i32, Box<dyn std::error::Error>> {
-	// プロセスを実行します。
+	// Create command
 	let mut command = std::process::Command::new("cmd");
 	let mut args: Vec<String> = vec![];
 	args.push("/C".to_string());
@@ -8,27 +8,25 @@ pub fn shell_exec(command_fields: Vec<String>) -> std::result::Result<i32, Box<d
 		args.push(e.to_string());
 	}
 
-	// 実行
+	// run
 	let mut command = command.args(args).spawn()?;
 	let response = command.wait();
 	if response.is_err() {
 		return Err(Box::new(response.err().unwrap()));
 	}
 
-	// 終了ステータスを確認
+	// check exit status
 	let status = response.unwrap();
 	if !status.success() {
-		// バッチを終了
 		let exit_code = status.code().unwrap();
 		println!("[ERROR] command exited with status: {}", exit_code);
 		return Ok(exit_code);
-		// std::process::exit(exit_code);
 	}
 
 	return Ok(0);
 }
 
-/// テキストファイル全体を読み込んで文字列で返します。
+/// Retrieve the whole content of file
 pub fn read_text_file_all(path: &str) -> std::result::Result<String, Box<dyn std::error::Error>> {
 	use std::io::Read;
 
@@ -38,6 +36,7 @@ pub fn read_text_file_all(path: &str) -> std::result::Result<String, Box<dyn std
 	return Ok(s);
 }
 
+/// Returns right if left was empty
 pub fn select(left: &str, right: &str) -> String {
 	return match left {
 		"" => String::from(right),
