@@ -79,7 +79,7 @@ impl Configuration {
 		let rmakefile_path = functions::select(rmakefile_path, "rmake.toml");
 
 		// Read the whole content of given file
-		println!("[TRACE] Reading rmake file ... [{}]", &rmakefile_path);
+		println!("{} [TRACE] Reading rmake file ... [{}]", functions::get_timestamp(), &rmakefile_path);
 		println!();
 		let content = functions::read_text_file_all(&rmakefile_path)?;
 
@@ -90,7 +90,7 @@ impl Configuration {
 		if conf.env.is_some() {
 			let env = conf.env.as_ref().unwrap();
 			for (k, v) in env {
-				println!("[TRACE] ENVIRONMENT [{}]=[{}]", k, v);
+				println!("{} [TRACE] ENVIRONMENT [{}]=[{}]", functions::get_timestamp(), k, v);
 				std::env::set_var(k, v);
 			}
 		}
