@@ -9,7 +9,6 @@ pub struct TaskController {
 	/// task definitions
 	tasks: Vec<Box<configuration::Task>>,
 	/// task statuses
-	#[allow(unused)]
 	task_status: status_holder::StatusHolder,
 }
 
@@ -64,7 +63,7 @@ impl TaskController {
 			_ => self.find_task(name),
 		};
 		if result.is_none() {
-			println!("[ERROR] Task not found. [{}]", name);
+			println!("{} [ERROR] Task not found. [{}]", functions::get_timestamp(), name);
 			return Ok(false);
 		}
 		let target_task = result.unwrap().clone();
@@ -81,7 +80,7 @@ impl TaskController {
 		{
 			for task in target_task.get_depends_on() {
 				if !self.run(&task)? {
-					println!("[ERROR] Task failed. Operation canceled.");
+					println!("{} [ERROR] Task failed. Operation canceled.", functions::get_timestamp());
 					return Ok(false);
 				}
 			}
@@ -90,8 +89,7 @@ impl TaskController {
 		// Execute target task
 		{
 			println!("");
-			println!("");
-			println!("[TRACE] executing task... [{}]", target_task.get_name());
+			println!("{} [TRACE] executing task... [{}]", functions::get_timestamp(), target_task.get_name());
 
 			for commands in target_task.get_command() {
 				let exit_code = functions::shell_exec(commands)?;
@@ -101,7 +99,7 @@ impl TaskController {
 			}
 		}
 
-		// Mark completed
+		// Mark task completed
 		{
 			self.task_status.set_status(target_task.get_name(), String::from("COMPLETED"));
 		}
