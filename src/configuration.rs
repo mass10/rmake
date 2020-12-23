@@ -1,6 +1,6 @@
 extern crate serde_derive;
 
-use super::lib;
+use super::functions;
 
 ///
 /// Task definition
@@ -76,12 +76,12 @@ impl Configuration {
 		extern crate toml;
 
 		// rmake configuration file
-		let rmakefile_path = lib::select(rmakefile_path, "rmake.toml");
+		let rmakefile_path = functions::select(rmakefile_path, "rmake.toml");
 
 		// Read the whole content of given file
 		println!("[TRACE] Reading rmake file ... [{}]", &rmakefile_path);
 		println!();
-		let content = lib::read_text_file_all(&rmakefile_path)?;
+		let content = functions::read_text_file_all(&rmakefile_path)?;
 
 		// Read TOML file
 		let conf: Configuration = toml::from_str(&content)?;
