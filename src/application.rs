@@ -1,5 +1,6 @@
 use super::configuration;
 use super::task_controller;
+use super::functions;
 
 ///
 /// Application structure
@@ -32,7 +33,7 @@ impl Application {
 		println!("###    ###         ##    #  #      ###  ###      ##   ##       ##  #######    ##");
 		println!("##     ##          ##    ###       ##            ##   ##       ###           ###");
 		println!("################################################################################");
-		println!("## RMAKE ver. 0.1.5                                                           ##");
+		println!("## RMAKE ver. 0.1.6                                                           ##");
 		println!("################################################################################");
 		println!("");
 	}
@@ -45,7 +46,7 @@ impl Application {
 		// configuration
 		let conf = configuration::Configuration::new(rmakefile_path);
 		if conf.is_err() {
-			println!("[ERROR] Configuration failed. reason: {}", conf.err().unwrap());
+			println!("{} [ERROR] Configuration failed. reason: {}", functions::get_timestamp(), conf.err().unwrap());
 			return Ok(());
 		}
 		let conf = conf.ok().unwrap();
