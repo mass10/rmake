@@ -1,11 +1,29 @@
 # About
 
-* Simple task runner as `make`.
+* Simple task runner like `make`.
 
 # Getting started
 
 ```bash
 cargo install rmake
+```
+
+# How to run the first task
+
+```bash
+rmake
+```
+
+# How to run the specified task
+
+```bash
+rmake {name of task}
+```
+
+# Show usage
+
+```bash
+rmake --help
 ```
 
 # rmake.toml is as
