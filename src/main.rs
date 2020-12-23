@@ -89,7 +89,7 @@ fn main() {
 	// タスクが指定されなかった場合は、先頭のタスクが対象になります。
 	let result = app.start(&conf.rmakefile_path, &conf.target_task);
 	if result.is_err() {
-		println!("[ERROR] Error! reason: {}", result.err().unwrap());
+		println!("{} [ERROR] Error! reason: {}", functions::get_timestamp(), result.err().unwrap());
 		return;
 	}
 }
