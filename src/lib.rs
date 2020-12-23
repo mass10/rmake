@@ -1,15 +1,35 @@
+fn create_command(command_fields: &Vec<String>) -> std::result::Result<std::process::Child, Box<dyn std::error::Error>> {
+	// Create command for Windows
+	{
+		let mut command = std::process::Command::new("cmd");
+		let mut args: Vec<String> = vec![];
+		args.push("/C".to_string());
+		for e in command_fields {
+			args.push(e.to_string());
+		}
+		let command = command.args(args).spawn();
+		if !command.is_err() {
+			return Ok(command.unwrap());
+		}
+	}
+
+	// Create command for somewhere else
+	{
+		let mut command = std::process::Command::new("sh");
+		let mut args: Vec<String> = vec![];
+		args.push("-c".to_string());
+		for e in command_fields {
+			args.push(e.to_string());
+		}
+		let command = command.args(args).spawn()?;
+		return Ok(command);
+	}
+}
+
 /// execute command in os shell
 pub fn shell_exec(command_fields: Vec<String>) -> std::result::Result<i32, Box<dyn std::error::Error>> {
 	// Create command
-	let mut command = std::process::Command::new("cmd");
-	let mut args: Vec<String> = vec![];
-	args.push("/C".to_string());
-	for e in command_fields {
-		args.push(e.to_string());
-	}
-
-	// run
-	let mut command = command.args(args).spawn()?;
+	let mut command = create_command(&command_fields)?;
 	let response = command.wait();
 	if response.is_err() {
 		return Err(Box::new(response.err().unwrap()));
