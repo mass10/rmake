@@ -1,6 +1,6 @@
 [package]
 name = "rmake"
-version = "0.1.5"
+version = "0.1.6"
 authors = ["Irisawa Masaru <irisawa.masaru@gmail.com>"]
 edition = "2018"
 license = "MIT"
@@ -13,3 +13,4 @@ documentation = "https://github.com/mass10/rmake"
 serde = "1.0.*"
 serde_derive = "1.0.*"
 toml = "0.5.*"
+chrono = "0.4.*"
