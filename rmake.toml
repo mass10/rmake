@@ -8,5 +8,6 @@ description = "テスト"
 name = "test1"
 depends_on = []
 command = [
-	["echo", "%MY_ENV_02%"]
+	["echo", "%MY_ENV_02%"],
+	["echo", "$MY_ENV_02"],
 ]
