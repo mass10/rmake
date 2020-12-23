@@ -1,5 +1,5 @@
 use super::configuration;
-use super::lib;
+use super::functions;
 use super::status_holder;
 
 ///
@@ -94,7 +94,7 @@ impl TaskController {
 			println!("[TRACE] executing task... [{}]", target_task.get_name());
 
 			for commands in target_task.get_command() {
-				let exit_code = lib::shell_exec(commands)?;
+				let exit_code = functions::shell_exec(commands)?;
 				if exit_code != 0 {
 					return Ok(false);
 				}
