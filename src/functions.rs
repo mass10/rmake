@@ -1,7 +1,7 @@
 extern crate chrono;
 
-use super::myerror;
 use super::functions;
+use super::myerror;
 
 /// Return system timestamp
 pub fn get_timestamp() -> String {
