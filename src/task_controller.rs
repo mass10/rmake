@@ -92,7 +92,7 @@ impl TaskController {
 			println!("{} [TRACE] executing task... [{}]", functions::get_timestamp(), target_task.get_name());
 
 			for commands in target_task.get_command() {
-				let exit_code = functions::shell_exec(commands)?;
+				let exit_code = functions::shell_exec(&commands)?;
 				if exit_code != 0 {
 					return Ok(false);
 				}
