@@ -38,8 +38,8 @@ description = "Hello, rmake!"
 name = "default"
 depends_on = ["common"]
 command = [
-	["echo", "%MY_ENV_01%"],
-	["echo", "$MY_ENV_02"]
+	"echo %MY_ENV_01%",
+	"echo $MY_ENV_02"
 ]
 
 [[tasks]]
@@ -47,7 +47,7 @@ description = "My Common Library"
 name = "common"
 depends_on = []
 command = [
-	["echo", "%MY_ENV_01%"],
-	["echo", "$MY_ENV_02"]
+	"echo %MY_ENV_01%",
+	"echo $MY_ENV_02"
 ]
 ```
