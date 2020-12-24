@@ -87,13 +87,14 @@ impl Configuration {
 		let conf: Configuration = toml::from_str(&content)?;
 
 		// Retrieves and set the environment variables from configuration file
-		if conf.env.is_some() {
-			let env = conf.env.as_ref().unwrap();
-			for (k, v) in env {
-				println!("{} [TRACE] ENVIRONMENT [{}]=[{}]", functions::get_timestamp(), k, v);
-				std::env::set_var(k, v);
-			}
-		}
+		// TODO: REMOVE
+		// if conf.env.is_some() {
+		// 	let env = conf.env.as_ref().unwrap();
+		// 	for (k, v) in env {
+		// 		println!("{} [TRACE] ENVIRONMENT [{}]=[{}]", functions::get_timestamp(), k, v);
+		// 		std::env::set_var(k, v);
+		// 	}
+		// }
 
 		return Ok(conf);
 	}
