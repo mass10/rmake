@@ -83,6 +83,11 @@ impl Configuration {
 		println!();
 		let content = functions::read_text_file_all(&rmakefile_path)?;
 
+		// TODO: REPLACE ENV VARS PLACEHOLDERS IN THE RMAKE FILE
+		// {
+
+		// }
+
 		// Read TOML file
 		let conf: Configuration = toml::from_str(&content)?;
 
