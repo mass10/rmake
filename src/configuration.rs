@@ -14,7 +14,7 @@ pub struct Task {
 	/// Dependencies
 	depends_on: Option<Vec<String>>,
 	/// Command and options
-	command: Option<Vec<Vec<String>>>,
+	command: Option<Vec<String>>,
 }
 
 impl Task {
@@ -38,10 +38,9 @@ impl Task {
 
 	/// Returns command and options
 	#[allow(unused)]
-	pub fn get_command(&self) -> Vec<Vec<String>> {
+	pub fn get_command(&self) -> Vec<String> {
 		if self.command.is_none() {
-			let result: Vec<Vec<String>> = vec![];
-			return result.clone();
+			return vec![];
 		}
 		let command = self.command.as_ref().unwrap();
 		return command.clone();
