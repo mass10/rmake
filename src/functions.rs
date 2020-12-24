@@ -40,14 +40,12 @@ fn is_linux_os() -> std::result::Result<bool, Box<dyn std::error::Error>> {
 }
 
 /// execute command in os shell
-pub fn shell_exec(command_fields: Vec<String>) -> std::result::Result<i32, Box<dyn std::error::Error>> {
+pub fn shell_exec(commands: &String) -> std::result::Result<i32, Box<dyn std::error::Error>> {
 	// Try to execute command for Windows
 	if is_windows_os()? {
 		let mut command = std::process::Command::new("cmd");
 		command.arg("/C");
-		for e in &command_fields {
-			command.arg(e.to_string());
-		}
+		command.arg(commands);
 		let mut response = command.spawn()?;
 		let status = response.wait()?;
 		if !status.success() {
@@ -60,11 +58,9 @@ pub fn shell_exec(command_fields: Vec<String>) -> std::result::Result<i32, Box<d
 
 	// Create command for somewhere else
 	if is_linux_os()? {
-		let first_command = &command_fields[0];
-		let mut command = std::process::Command::new(first_command);
-		for e in &command_fields[1..] {
-			command.arg(e.to_string());
-		}
+		let mut command = std::process::Command::new("sh");
+		command.arg("-c");
+		command.arg(commands);
 		let mut response = command.spawn()?;
 		let status = response.wait()?;
 		if !status.success() {
