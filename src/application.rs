@@ -1,6 +1,6 @@
 use super::configuration;
-use super::task_controller;
 use super::functions;
+use super::task_controller;
 
 ///
 /// Application structure
