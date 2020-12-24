@@ -62,11 +62,10 @@ pub fn shell_exec(command_fields: Vec<String>) -> std::result::Result<i32, Box<d
 	if is_linux_os()? {
 		let first_command = &command_fields[0];
 		let mut command = std::process::Command::new(first_command);
-		let mut args: Vec<String> = vec![];
 		for e in &command_fields[1..] {
-			args.push(e.to_string());
+			command.arg(e.to_string());
 		}
-		let mut response = command.args(args).spawn()?;
+		let mut response = command.spawn()?;
 		let status = response.wait()?;
 		if !status.success() {
 			let exit_code = status.code().unwrap();
