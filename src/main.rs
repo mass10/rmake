@@ -13,23 +13,46 @@ mod functions;
 mod status_holder;
 mod task_controller;
 
+fn make_bold(s: &str) -> String {
+	return format!("\x1b[1m{}\x1b[0m", s);
+}
+
 /// Shows usage.
 fn usage() {
-	println!("USAGE:");
-	println!("    > rmake --help");
+	println!("-------------------------------------------------------");
+	println!("{}", make_bold("NAME:"));
+	println!("");
+	println!("    rmake - A Simple task runner like make.");
+	println!("");
+	println!("-------------------------------------------------------");
+	println!("{}", make_bold("SYNOPSIS:"));
+	println!("");
+	println!("    {}", make_bold("rmake"));
+	println!("");
+	println!("    {}", make_bold("rmake [OPTIONS]"));
+	println!("");
+	println!("    {}", make_bold("rmake [taskname]"));
+	println!("");
+	println!("    {}", make_bold("rmake [taskname] [OPTIONS]"));
+	println!("");
+	println!("-------------------------------------------------------");
+	println!("{}", make_bold("DESCRIPTION:"));
+	println!("");
+	println!("    {}", make_bold("[--help], [-h]"));
+	println!("");
 	println!("        Show this message.");
 	println!("");
-	println!("    > rmake");
-	println!("        Run 1st task in rmake.toml");
+	println!("    {}", make_bold("[--file], [-f]"));
 	println!("");
-	println!("    > rmake --file rmake.toml");
-	println!("        Run 1st task in rmake.toml");
+	println!("        Run tasks in the specified rmake file.");
 	println!("");
-	println!("    > rmake TASK-1");
-	println!("        Run task [[TASK-1]]");
+	println!("        rmake --file \"rmake.toml\"");
 	println!("");
-	println!("    > rmake --file rmake.toml TASK-1");
-	println!("        Run task [[TASK-1]]");
+	println!("        \"rmake.toml\" is the default rmake file.");
+	println!("");
+	println!("    {}", make_bold("[taskname]"));
+	println!("");
+	println!("        Run a task named \"taskname\" in the rmake file.");
 	println!("");
 }
 
