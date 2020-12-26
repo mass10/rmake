@@ -13,16 +13,17 @@ mod functions;
 mod status_holder;
 mod task_controller;
 
+/// Strengthen text
 fn make_bold(s: &str) -> String {
 	return format!("\x1b[1m{}\x1b[0m", s);
 }
 
-/// Shows usage.
+/// Shows usage
 fn usage() {
 	println!("-------------------------------------------------------");
 	println!("{}", make_bold("NAME:"));
 	println!("");
-	println!("    rmake - A Simple task runner like make.");
+	println!("    rmake - A simple task runner like make.");
 	println!("");
 	println!("-------------------------------------------------------");
 	println!("{}", make_bold("SYNOPSIS:"));
@@ -44,11 +45,11 @@ fn usage() {
 	println!("");
 	println!("    {}", make_bold("[--file], [-f]"));
 	println!("");
-	println!("        Run tasks in the specified rmake file.");
+	println!("        Need value. Run tasks in the specified rmake file.");
 	println!("");
 	println!("        rmake --file \"rmake.toml\"");
 	println!("");
-	println!("        \"rmake.toml\" is the default rmake file.");
+	println!("        \"rmake.toml\" is default rmake file.");
 	println!("");
 	println!("    {}", make_bold("[taskname]"));
 	println!("");
@@ -80,6 +81,12 @@ fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
 		if e == "--help" || e == "-h" {
 			return Err(());
 		}
+		if e.starts_with("--file=") || e.starts_with("-f=") {
+			let pos = e.find("=").unwrap();
+			let right = &e[pos + 1..];
+			conf.rmakefile_path = right.to_string();
+			continue;
+		}
 		if e == "--file" || e == "-f" {
 			current_scope = e;
 			continue;
@@ -95,6 +102,10 @@ fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
 			continue;
 		}
 		conf.target_task = e;
+	}
+
+	if current_scope != "" {
+		return Err(());
 	}
 
 	return Ok(conf);
