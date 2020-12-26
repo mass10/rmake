@@ -1,10 +1,10 @@
 [package]
 name = "rmake"
-version = "0.1.12"
+version = "0.1.13"
 authors = ["Irisawa Masaru <irisawa.masaru@gmail.com>"]
 edition = "2018"
 license = "MIT"
-description = "Simple make by Rust"
+description = "A simple task runner like make"
 repository = "https://github.com/mass10/rmake/"
 documentation = "https://docs.rs/crate/rmake/"
 
