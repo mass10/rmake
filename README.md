@@ -30,11 +30,11 @@ rmake --help
 
 ```
 [env]
-MY_ENV_01 = "administrator@example.com"
-MY_ENV_02 = "2147483647"
+MY_ENV_01 = "Hello,"
+MY_ENV_02 = "World!"
 
 [[tasks]]
-description = "Hello, rmake!"
+description = "anything"
 name = "default"
 depends_on = ["common"]
 command = [
@@ -42,7 +42,7 @@ command = [
 ]
 
 [[tasks]]
-description = "My Common Library"
+description = "anything"
 name = "common"
 depends_on = []
 command = [
