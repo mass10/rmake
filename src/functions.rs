@@ -1,7 +1,7 @@
 extern crate chrono;
 
+use super::application_error;
 use super::functions;
-use super::myerror;
 
 /// Return system timestamp
 pub fn get_timestamp() -> String {
@@ -71,7 +71,7 @@ pub fn shell_exec(commands: &String) -> std::result::Result<i32, Box<dyn std::er
 		return Ok(0);
 	}
 
-	return Err(Box::new(myerror::ApplicationError::new("Unrecognized environment".to_string())));
+	return Err(Box::new(application_error::ApplicationError::new("Unrecognized environment".to_string())));
 }
 
 /// Retrieve the whole content of file
