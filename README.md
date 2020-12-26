@@ -1,6 +1,6 @@
 # About
 
-* Simple task runner like `make`.
+* A simple task runner like `make`.
 
 # Getting started
 
