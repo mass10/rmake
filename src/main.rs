@@ -1,3 +1,9 @@
+//!
+//! # rmake
+//!
+//! `rmake` is a simple task runner like `make`.
+//!
+
 extern crate serde_derive;
 
 mod application;
