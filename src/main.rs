@@ -7,9 +7,9 @@
 extern crate serde_derive;
 
 mod application;
+mod application_error;
 mod configuration;
 mod functions;
-mod myerror;
 mod status_holder;
 mod task_controller;
 
