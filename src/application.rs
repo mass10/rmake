@@ -18,7 +18,7 @@ impl Application {
 
 	/// Shows banner
 	fn show_banner() {
-		let application_info = format!("{} {}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"));
+		let application_info = format!("{} {}, {}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"), env!("CARGO_PKG_DESCRIPTION"));
 
 		println!("################################################################################");
 		println!("################################################################################");
