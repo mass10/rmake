@@ -91,3 +91,15 @@ pub fn select(left: &str, right: &str) -> String {
 		_ => String::from(left),
 	};
 }
+
+/// Split string at the first separator
+pub fn split_string(s: &str, separator: &str) -> (String, String) {
+	let position = s.find(separator);
+	if position.is_none() {
+		return ("".to_string(), "".to_string());
+	}
+	let position = position.unwrap();
+	let key = &s[0..position];
+	let value = &s[position + 1..];
+	return (key.to_string(), value.to_string());
+}
