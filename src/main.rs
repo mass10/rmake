@@ -130,8 +130,7 @@ fn main() {
 		let result_string = result.err().unwrap();
 		if result_string == "show usage" {
 			usage();
-		}
-		else if result_string == "show version" {
+		} else if result_string == "show version" {
 			version();
 		}
 		return;
