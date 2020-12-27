@@ -1,9 +1,3 @@
-//!
-//! # rmake
-//!
-//! `rmake` is a simple task runner like `make`.
-//!
-
 extern crate serde_derive;
 
 mod application;
@@ -43,6 +37,10 @@ fn usage() {
 	println!("");
 	println!("        Show this message.");
 	println!("");
+	println!("    {}", make_bold("[--version], [-v]"));
+	println!("");
+	println!("        Show application version.");
+	println!("");
 	println!("    {}", make_bold("[--file], [-f]"));
 	println!("");
 	println!("        Need value. Run tasks in the specified rmake file.");
@@ -57,6 +55,14 @@ fn usage() {
 	println!("");
 }
 
+fn version() {
+	println!("{}", env!("CARGO_PKG_DESCRIPTION"));
+	println!();
+	println!("{} {}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"));
+	println!();
+	println!("{}", "https://crates.io/crates/make");
+}
+
 ///
 /// Commandline options
 ///
@@ -69,7 +75,7 @@ struct CommandlineConfiguration {
 }
 
 /// Reads commandline options
-fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
+fn configure() -> std::result::Result<CommandlineConfiguration, String> {
 	let mut conf = CommandlineConfiguration {
 		target_task: String::new(),
 		rmakefile_path: String::new(),
@@ -79,12 +85,15 @@ fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
 	let args: Vec<String> = std::env::args().skip(1).collect();
 	for e in args {
 		if e == "--help" || e == "-h" {
-			return Err(());
+			return Err("show usage".to_string());
+		}
+		if e == "--version" || e == "-v" {
+			return Err("show version".to_string());
 		}
 		if e.starts_with("--file=") || e.starts_with("-f=") {
 			let (_, value) = functions::split_string(&e, "=");
 			if value == "" {
-				return Err(());
+				return Err("show usage".to_string());
 			}
 			conf.rmakefile_path = value;
 			continue;
@@ -96,7 +105,7 @@ fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
 		if e.starts_with("-") {
 			current_scope.clear();
 			println!("Unknown option {}", e);
-			return Err(());
+			return Err("show usage".to_string());
 		}
 		if current_scope == "-f" || current_scope == "--file" {
 			current_scope.clear();
@@ -107,7 +116,7 @@ fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
 	}
 
 	if current_scope != "" {
-		return Err(());
+		return Err("show usage".to_string());
 	}
 
 	return Ok(conf);
@@ -118,7 +127,13 @@ fn main() {
 	// read commandline options
 	let result = configure();
 	if result.is_err() {
-		usage();
+		let result_string = result.err().unwrap();
+		if result_string == "show usage" {
+			usage();
+		}
+		else if result_string == "show version" {
+			version();
+		}
 		return;
 	}
 
@@ -127,8 +142,9 @@ fn main() {
 	// Initialize application
 	let app = application::Application::new();
 
-	// コマンドライン引数で要求された rmake ファイルを実行します。
-	// タスクが指定されなかった場合は、先頭のタスクが対象になります。
+	// Run application.
+	// Configure with the rmake file given or "rmake.toml" at current directory. That is default file.
+	// Application will execute the task given or the first task in rmake file.
 	let result = app.start(&conf.rmakefile_path, &conf.target_task);
 	if result.is_err() {
 		println!("{} [ERROR] Error! reason: {}", functions::get_timestamp(), result.err().unwrap());
