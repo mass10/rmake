@@ -58,7 +58,7 @@ fn usage() {
 }
 
 ///
-/// commandline options
+/// Commandline options
 ///
 #[derive(Clone)]
 struct CommandlineConfiguration {
@@ -82,9 +82,11 @@ fn configure() -> std::result::Result<CommandlineConfiguration, ()> {
 			return Err(());
 		}
 		if e.starts_with("--file=") || e.starts_with("-f=") {
-			let pos = e.find("=").unwrap();
-			let right = &e[pos + 1..];
-			conf.rmakefile_path = right.to_string();
+			let (_, value) = functions::split_string(&e, "=");
+			if value == "" {
+				return Err(());
+			}
+			conf.rmakefile_path = value;
 			continue;
 		}
 		if e == "--file" || e == "-f" {
