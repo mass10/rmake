@@ -55,6 +55,7 @@ fn usage() {
 	println!("");
 }
 
+/// Show application version
 fn version() {
 	println!("{}", env!("CARGO_PKG_DESCRIPTION"));
 	println!();
@@ -68,9 +69,9 @@ fn version() {
 ///
 #[derive(Clone)]
 struct CommandlineConfiguration {
-	/// rmake ファイルへのパス
+	/// Path to rmake file
 	rmakefile_path: String,
-	/// ターゲットのタスク
+	/// Task name to execute
 	target_task: String,
 }
 
