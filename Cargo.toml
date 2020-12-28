@@ -1,6 +1,6 @@
 [package]
 name = "rmake"
-version = "0.1.15"
+version = "0.1.16"
 authors = ["Irisawa Masaru <irisawa.masaru@gmail.com>"]
 edition = "2018"
 license = "MIT"
