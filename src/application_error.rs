@@ -8,8 +8,8 @@ pub struct ApplicationError {
 
 impl ApplicationError {
 	#[allow(unused)]
-	pub fn new(description: String) -> ApplicationError {
-		return ApplicationError { description: description };
+	pub fn new(description: &str) -> ApplicationError {
+		return ApplicationError { description: description.to_string() };
 	}
 }
 
