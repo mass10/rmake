@@ -70,7 +70,7 @@ impl TaskController {
 
 		// Verify task status
 		{
-			let status = self.task_status.get_status(target_task.get_name());
+			let status = self.task_status.get_status(&target_task.get_name());
 			if status == "COMPLETED" {
 				return Ok(true);
 			}
@@ -101,7 +101,7 @@ impl TaskController {
 
 		// Mark task completed
 		{
-			self.task_status.set_status(target_task.get_name(), String::from("COMPLETED"));
+			self.task_status.set_status(&target_task.get_name(), "COMPLETED");
 		}
 
 		return Ok(true);
