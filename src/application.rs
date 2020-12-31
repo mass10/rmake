@@ -46,7 +46,7 @@ impl Application {
 		Application::show_banner();
 
 		// configuration
-		let conf = configuration::Configuration::new(rmakefile_path);
+		let conf = configuration::ConfigurationSettings::new(rmakefile_path);
 		if conf.is_err() {
 			println!("{} [ERROR] Configuration failed. reason: {}", functions::get_timestamp(), conf.err().unwrap());
 			return Ok(());
