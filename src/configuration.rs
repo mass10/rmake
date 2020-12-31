@@ -62,16 +62,16 @@ impl Task {
 /// Configuration structure
 ///
 #[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
-pub struct Configuration {
+pub struct ConfigurationSettings {
 	/// Variables
 	pub env: Option<std::collections::btree_map::BTreeMap<String, String>>,
 	/// Tasks definition
 	pub tasks: Vec<Task>,
 }
 
-impl Configuration {
-	/// Returns a new instance of Configuration
-	pub fn new(rmakefile_path: &str) -> std::result::Result<Configuration, Box<dyn std::error::Error>> {
+impl ConfigurationSettings {
+	/// Returns a new instance of ConfigurationSettings
+	pub fn new(rmakefile_path: &str) -> std::result::Result<ConfigurationSettings, Box<dyn std::error::Error>> {
 		extern crate toml;
 
 		// rmake configuration file
@@ -88,7 +88,7 @@ impl Configuration {
 		// }
 
 		// Read TOML file
-		let conf: Configuration = toml::from_str(&content)?;
+		let conf: ConfigurationSettings = toml::from_str(&content)?;
 
 		// Retrieves and set the environment variables from configuration file
 		if conf.env.is_some() {
