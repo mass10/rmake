@@ -68,65 +68,79 @@ fn version() {
 /// Commandline options
 ///
 #[derive(Clone)]
-struct CommandlineConfiguration {
+struct StartConfigurationSettings {
 	/// Path to rmake file
 	rmakefile_path: String,
 	/// Task name to execute
 	target_task: String,
 }
 
-/// Reads commandline options
-fn configure() -> std::result::Result<CommandlineConfiguration, String> {
-	let mut conf = CommandlineConfiguration {
-		target_task: String::new(),
-		rmakefile_path: String::new(),
-	};
-	let mut current_scope = String::new();
+impl StartConfigurationSettings {
+	/// Reads commandline options
+	pub fn configure() -> std::result::Result<StartConfigurationSettings, String> {
+		// start configuration
+		let mut conf = StartConfigurationSettings {
+			target_task: String::new(),
+			rmakefile_path: String::new(),
+		};
 
-	let args: Vec<String> = std::env::args().skip(1).collect();
-	for e in args {
-		if e == "--help" || e == "-h" {
-			return Err("show usage".to_string());
-		}
-		if e == "--version" || e == "-v" {
-			return Err("show version".to_string());
-		}
-		if e.starts_with("--file=") || e.starts_with("-f=") {
-			let (_, value) = functions::split_string(&e, "=");
-			if value == "" {
+		let mut current_option = String::new();
+
+		// Commandline options. The 1st token is application itself.
+		let args: Vec<String> = std::env::args().skip(1).collect();
+
+		// Reading tokens
+		for e in args {
+			if e == "--help" || e == "-h" {
 				return Err("show usage".to_string());
 			}
-			conf.rmakefile_path = value;
-			continue;
+			if e == "--version" || e == "-v" {
+				return Err("show version".to_string());
+			}
+			if e.starts_with("--file=") || e.starts_with("-f=") {
+				let (_, value) = functions::split_string(&e, "=");
+				if value == "" {
+					return Err("show usage".to_string());
+				}
+				conf.rmakefile_path = value;
+				continue;
+			}
+			if e == "--file" || e == "-f" {
+				current_option = e;
+				continue;
+			}
+			if e.starts_with("-") {
+				// Unknown option flag given.
+				current_option.clear();
+				println!("Unknown option {}", e);
+				return Err("show usage".to_string());
+			}
+
+			if current_option == "--file" || current_option == "-f" {
+				// Must be the path to rmake file.
+				conf.rmakefile_path = e;
+				current_option.clear();
+				continue;
+			}
+
+			// Must be the name of a task to launch.
+			conf.target_task = e;
 		}
-		if e == "--file" || e == "-f" {
-			current_scope = e;
-			continue;
-		}
-		if e.starts_with("-") {
-			current_scope.clear();
-			println!("Unknown option {}", e);
+
+		if current_option != "" {
+			// No values followed option flag.
 			return Err("show usage".to_string());
 		}
-		if current_scope == "-f" || current_scope == "--file" {
-			current_scope.clear();
-			conf.rmakefile_path = e;
-			continue;
-		}
-		conf.target_task = e;
-	}
 
-	if current_scope != "" {
-		return Err("show usage".to_string());
+		// Configuration valid.
+		return Ok(conf);
 	}
-
-	return Ok(conf);
 }
 
 /// Entrypoint
 fn main() {
 	// read commandline options
-	let result = configure();
+	let result = StartConfigurationSettings::configure();
 	if result.is_err() {
 		let result_string = result.err().unwrap();
 		if result_string == "show usage" {
