@@ -63,8 +63,10 @@ impl Task {
 ///
 #[derive(serde_derive::Deserialize, Debug, std::clone::Clone)]
 pub struct ConfigurationSettings {
-	/// Variables
+	/// Environment variables
 	pub env: Option<std::collections::btree_map::BTreeMap<String, String>>,
+	/// Simple variables
+	pub variables: Option<std::collections::btree_map::BTreeMap<String, String>>,
 	/// Tasks definition
 	pub tasks: Vec<Task>,
 }
@@ -80,21 +82,30 @@ impl ConfigurationSettings {
 		// Read the whole content of given file
 		println!("{} [TRACE] Reading rmake file ... [{}]", functions::get_timestamp(), &rmakefile_path);
 		println!();
-		let content = functions::read_text_file_all(&rmakefile_path)?;
 
-		// TODO: REPLACE ENV VARS PLACEHOLDERS IN THE RMAKE FILE
-		// {
-
-		// }
+		let mut content = functions::read_text_file_all(&rmakefile_path)?;
 
 		// Read TOML file
+		let conf: ConfigurationSettings = toml::from_str(&content)?;
+
+		// Fill placeholders with variables
+		if conf.variables.is_some() {
+			let variables = conf.variables.as_ref().unwrap();
+			for (k, v) in variables {
+				println!("{} [TRACE] VAR [{}]=[{}]", functions::get_timestamp(), k, v);
+				let place_holder = format!("{{{{{}}}}}", k);
+				content = content.replace(&place_holder, &v);
+			}
+		}
+
+		// Re-configure by the content.
 		let conf: ConfigurationSettings = toml::from_str(&content)?;
 
 		// Retrieves and set the environment variables from configuration file
 		if conf.env.is_some() {
 			let env = conf.env.as_ref().unwrap();
 			for (k, v) in env {
-				println!("{} [TRACE] ENVIRONMENT [{}]=[{}]", functions::get_timestamp(), k, v);
+				println!("{} [TRACE] ENV [{}]=[{}]", functions::get_timestamp(), k, v);
 				std::env::set_var(k, v);
 			}
 		}
