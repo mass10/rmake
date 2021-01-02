@@ -88,8 +88,11 @@ impl TaskController {
 
 		// Execute target task
 		{
-			println!("");
-			println!("{} [TRACE] executing task... [{}]", functions::get_timestamp(), target_task.get_name());
+			println!("{} [TRACE] executing task...", functions::get_timestamp());
+			println!("==============================================================================");
+			println!("name        : {}", target_task.get_name());
+			println!("description : {}", target_task.get_description());
+			println!("==============================================================================");
 
 			for commands in target_task.get_command() {
 				let exit_code = functions::shell_exec(&commands)?;
@@ -97,6 +100,7 @@ impl TaskController {
 					return Ok(false);
 				}
 			}
+			println!("");
 		}
 
 		// Mark task completed
