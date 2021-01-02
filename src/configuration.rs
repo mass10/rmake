@@ -81,7 +81,6 @@ impl ConfigurationSettings {
 
 		// Read the whole content of given file
 		println!("{} [TRACE] Reading rmake file ... [{}]", functions::get_timestamp(), &rmakefile_path);
-		println!();
 
 		let mut content = functions::read_text_file_all(&rmakefile_path)?;
 
@@ -96,6 +95,11 @@ impl ConfigurationSettings {
 				let place_holder = format!("{{{{{}}}}}", k);
 				content = content.replace(&place_holder, &v);
 			}
+			if variables.len() == 0 {
+				println!("{} [TRACE] No var defined.", functions::get_timestamp());
+			}
+		} else {
+			println!("{} [TRACE] No var defined.", functions::get_timestamp());
 		}
 
 		// Re-configure by the content.
@@ -108,6 +112,11 @@ impl ConfigurationSettings {
 				println!("{} [TRACE] ENV [{}]=[{}]", functions::get_timestamp(), k, v);
 				std::env::set_var(k, v);
 			}
+			if env.len() == 0 {
+				println!("{} [TRACE] No env defined.", functions::get_timestamp());
+			}
+		} else {
+			println!("{} [TRACE] No env defined.", functions::get_timestamp());
 		}
 
 		return Ok(conf);
