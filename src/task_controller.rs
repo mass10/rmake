@@ -71,7 +71,7 @@ impl TaskController {
 			_ => self.find_task(task_name),
 		};
 		if result.is_none() {
-			println!("{} [ERROR] Task not found. [{}]", functions::get_timestamp(), task_name);
+			println!("{} rmake [ERROR] Task not found. [{}]", functions::get_timestamp(), task_name);
 			return Ok(false);
 		}
 		let target_task = result.unwrap().clone();
@@ -80,7 +80,7 @@ impl TaskController {
 		{
 			for task in &target_task.get_depends_on() {
 				if !self.run(&task)? {
-					println!("{} [ERROR] Task failed. Operation canceled.", functions::get_timestamp());
+					println!("{} rmake [ERROR] Task failed. Operation canceled.", functions::get_timestamp());
 					return Ok(false);
 				}
 			}
@@ -88,7 +88,7 @@ impl TaskController {
 
 		// Execute target task
 		{
-			println!("{} [TRACE] executing task...", functions::get_timestamp());
+			println!("{} rmake [INFO] executing task...", functions::get_timestamp());
 			println!("==============================================================================");
 			println!("name        : {}", target_task.get_name());
 			println!("description : {}", target_task.get_description());
