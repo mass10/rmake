@@ -45,10 +45,12 @@ impl Application {
 		// shows banner
 		Application::show_banner();
 
+		println!("{} rmake [INFO] START", functions::get_timestamp());
+
 		// configuration
 		let conf = configuration::ConfigurationSettings::new(rmakefile_path);
 		if conf.is_err() {
-			println!("{} [ERROR] Configuration failed. reason: {}", functions::get_timestamp(), conf.err().unwrap());
+			println!("{} rmake [ERROR] Configuration failed. reason: [{}]", functions::get_timestamp(), conf.err().unwrap());
 			return Ok(());
 		}
 		let conf = conf.ok().unwrap();
@@ -56,6 +58,8 @@ impl Application {
 		// execute tasks
 		let mut controller = task_controller::TaskController::new(conf.tasks);
 		controller.run(target_task_name)?;
+
+		println!("{} rmake [INFO] END", functions::get_timestamp());
 
 		return Ok(());
 	}
