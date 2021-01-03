@@ -57,6 +57,14 @@ impl TaskController {
 
 	/// Execute a task
 	pub fn run(&mut self, task_name: &str) -> std::result::Result<bool, Box<dyn std::error::Error>> {
+		// Verify task status. Does not run a task twice.
+		{
+			let status = self.task_status.get_status(&task_name);
+			if status == "COMPLETED" {
+				return Ok(true);
+			}
+		}
+
 		// Find target task.
 		let result = match task_name {
 			"" => self.find_first_task(),
@@ -67,14 +75,6 @@ impl TaskController {
 			return Ok(false);
 		}
 		let target_task = result.unwrap().clone();
-
-		// Verify task status
-		{
-			let status = self.task_status.get_status(&target_task.get_name());
-			if status == "COMPLETED" {
-				return Ok(true);
-			}
-		}
 
 		// Execute dependencies first
 		{
