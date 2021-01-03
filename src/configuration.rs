@@ -19,7 +19,6 @@ pub struct Task {
 
 impl Task {
 	/// Returns name
-	#[allow(unused)]
 	pub fn get_name(&self) -> String {
 		if self.name.is_none() {
 			return String::new();
@@ -28,7 +27,6 @@ impl Task {
 	}
 
 	/// Returns description
-	#[allow(unused)]
 	pub fn get_description(&self) -> String {
 		if self.description.is_none() {
 			return String::new();
@@ -37,7 +35,6 @@ impl Task {
 	}
 
 	/// Returns command and options
-	#[allow(unused)]
 	pub fn get_command(&self) -> Vec<String> {
 		if self.command.is_none() {
 			return vec![];
@@ -47,7 +44,6 @@ impl Task {
 	}
 
 	/// Returns dependencies
-	#[allow(unused)]
 	pub fn get_depends_on(&self) -> Vec<String> {
 		if self.depends_on.is_none() {
 			let result: Vec<String> = vec![];
