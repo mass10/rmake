@@ -64,7 +64,7 @@ dependencies = [
 
 [[package]]
 name = "rmake"
-version = "0.1.21"
+version = "0.1.22"
 dependencies = [
  "chrono",
  "serde",
