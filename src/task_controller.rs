@@ -56,14 +56,14 @@ impl TaskController {
 	}
 
 	/// Execute a task
-	pub fn run(&mut self, name: &str) -> std::result::Result<bool, Box<dyn std::error::Error>> {
+	pub fn run(&mut self, task_name: &str) -> std::result::Result<bool, Box<dyn std::error::Error>> {
 		// Find target task.
-		let result = match name {
+		let result = match task_name {
 			"" => self.find_first_task(),
-			_ => self.find_task(name),
+			_ => self.find_task(task_name),
 		};
 		if result.is_none() {
-			println!("{} [ERROR] Task not found. [{}]", functions::get_timestamp(), name);
+			println!("{} [ERROR] Task not found. [{}]", functions::get_timestamp(), task_name);
 			return Ok(false);
 		}
 		let target_task = result.unwrap().clone();
@@ -78,7 +78,7 @@ impl TaskController {
 
 		// Execute dependencies first
 		{
-			for task in target_task.get_depends_on() {
+			for task in &target_task.get_depends_on() {
 				if !self.run(&task)? {
 					println!("{} [ERROR] Task failed. Operation canceled.", functions::get_timestamp());
 					return Ok(false);
