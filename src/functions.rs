@@ -50,7 +50,7 @@ pub fn shell_exec(commands: &String) -> std::result::Result<i32, Box<dyn std::er
 		let status = response.wait()?;
 		if !status.success() {
 			let exit_code = status.code().unwrap();
-			println!("{} [ERROR] command exited with status: {}", functions::get_timestamp(), exit_code);
+			println!("{} rmake [ERROR] command exited with status: [{}]", functions::get_timestamp(), exit_code);
 			return Ok(exit_code);
 		}
 		return Ok(0);
@@ -65,7 +65,7 @@ pub fn shell_exec(commands: &String) -> std::result::Result<i32, Box<dyn std::er
 		let status = response.wait()?;
 		if !status.success() {
 			let exit_code = status.code().unwrap();
-			println!("{} [ERROR] command exited with status: {}", functions::get_timestamp(), exit_code);
+			println!("{} rmake [ERROR] command exited with status: [{}]", functions::get_timestamp(), exit_code);
 			return Ok(exit_code);
 		}
 		return Ok(0);
