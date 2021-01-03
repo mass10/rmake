@@ -1,3 +1,4 @@
+![Rust](https://github.com/mass10/rmake/workflows/Rust/badge.svg)
 # About
 
 * A simple task runner like `make`.
