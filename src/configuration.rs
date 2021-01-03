@@ -76,7 +76,7 @@ impl ConfigurationSettings {
 		let rmakefile_path = functions::select(rmakefile_path, "rmake.toml");
 
 		// Read the whole content of given file
-		println!("{} [TRACE] Reading rmake file ... [{}]", functions::get_timestamp(), &rmakefile_path);
+		println!("{} rmake [INFO] Reading rmake file ... [{}]", functions::get_timestamp(), &rmakefile_path);
 
 		let mut content = functions::read_text_file_all(&rmakefile_path)?;
 
@@ -87,15 +87,15 @@ impl ConfigurationSettings {
 		if conf.variables.is_some() {
 			let variables = conf.variables.as_ref().unwrap();
 			for (k, v) in variables {
-				println!("{} [TRACE] VAR [{}]=[{}]", functions::get_timestamp(), k, v);
+				println!("{} rmake [INFO] VAR [{}]=[{}]", functions::get_timestamp(), k, v);
 				let place_holder = format!("{{{{{}}}}}", k);
 				content = content.replace(&place_holder, &v);
 			}
 			if variables.len() == 0 {
-				println!("{} [TRACE] No var defined.", functions::get_timestamp());
+				println!("{} rmake [INFO] No var defined.", functions::get_timestamp());
 			}
 		} else {
-			println!("{} [TRACE] No var defined.", functions::get_timestamp());
+			println!("{} rmake [INFO] No var defined.", functions::get_timestamp());
 		}
 
 		// Re-configure by the content.
@@ -105,14 +105,14 @@ impl ConfigurationSettings {
 		if conf.env.is_some() {
 			let env = conf.env.as_ref().unwrap();
 			for (k, v) in env {
-				println!("{} [TRACE] ENV [{}]=[{}]", functions::get_timestamp(), k, v);
+				println!("{} rmake [INFO] ENV [{}]=[{}]", functions::get_timestamp(), k, v);
 				std::env::set_var(k, v);
 			}
 			if env.len() == 0 {
-				println!("{} [TRACE] No env defined.", functions::get_timestamp());
+				println!("{} rmake [INFO] No env defined.", functions::get_timestamp());
 			}
 		} else {
-			println!("{} [TRACE] No env defined.", functions::get_timestamp());
+			println!("{} rmake [INFO] No env defined.", functions::get_timestamp());
 		}
 
 		return Ok(conf);
