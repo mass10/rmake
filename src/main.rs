@@ -161,7 +161,7 @@ fn main() {
 	// Application will execute the task given or the first task in rmake file.
 	let result = app.start(&conf.rmakefile_path, &conf.target_task);
 	if result.is_err() {
-		println!("{} [ERROR] Error! reason: {}", functions::get_timestamp(), result.err().unwrap());
+		println!("{} rmake [ERROR] Error! reason: [{}]", functions::get_timestamp(), result.err().unwrap());
 		return;
 	}
 }
