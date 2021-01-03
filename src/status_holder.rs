@@ -21,13 +21,11 @@ impl StatusHolder {
 	}
 
 	/// Set task status.
-	#[allow(unused)]
 	pub fn set_status(&mut self, name: &str, status: &str) {
 		self.status.insert(name.to_string(), status.to_string());
 	}
 
 	/// Return task status.
-	#[allow(unused)]
 	pub fn get_status(&mut self, name: &str) -> String {
 		let status = self.status.get(&name.to_string());
 		if status.is_none() {
