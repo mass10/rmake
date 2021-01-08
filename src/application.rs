@@ -1,5 +1,6 @@
 use super::configuration;
 use super::functions;
+use super::stopwatch;
 use super::task_controller;
 
 ///
@@ -42,6 +43,9 @@ impl Application {
 
 	/// Executes rmake.toml given.
 	pub fn start(&self, rmakefile_path: &str, target_task_name: &str) -> std::result::Result<(), Box<dyn std::error::Error>> {
+		// Stopwatch
+		let watch = stopwatch::Stopwatch::new();
+
 		// shows banner
 		Application::show_banner();
 
@@ -59,7 +63,8 @@ impl Application {
 		let mut controller = task_controller::TaskController::new(conf.tasks);
 		controller.run(target_task_name)?;
 
-		println!("{} rmake [INFO] END", functions::get_timestamp());
+		println!();
+		println!("{} rmake [INFO] END ({})", functions::get_timestamp(), watch);
 
 		return Ok(());
 	}
