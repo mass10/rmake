@@ -1,6 +1,7 @@
 use super::configuration;
 use super::functions;
 use super::status_holder;
+use super::stopwatch;
 
 ///
 /// Task runner structure
@@ -88,19 +89,25 @@ impl TaskController {
 
 		// Execute target task
 		{
-			println!("{} rmake [INFO] executing task...", functions::get_timestamp());
+			println!();
 			println!("==============================================================================");
 			println!("name        : {}", target_task.get_name());
 			println!("description : {}", target_task.get_description());
 			println!("==============================================================================");
+			println!("{} rmake [INFO] executing task [{}] ...", functions::get_timestamp(), target_task.get_name());
+
+			// Stopwatch
+			let watch = stopwatch::Stopwatch::new();
 
 			for commands in target_task.get_command() {
 				let exit_code = functions::shell_exec(&commands)?;
 				if exit_code != 0 {
+					println!("{} rmake [ERROR] command exited with status: [{}] ({})", functions::get_timestamp(), exit_code, watch);
 					return Ok(false);
 				}
 			}
-			println!("");
+			println!();
+			println!("{} rmake [INFO] task [{}] terminated. ({})", functions::get_timestamp(), target_task.get_name(), watch);
 		}
 
 		// Mark task completed
