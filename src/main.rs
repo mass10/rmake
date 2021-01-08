@@ -5,6 +5,7 @@ mod application_error;
 mod configuration;
 mod functions;
 mod status_holder;
+mod stopwatch;
 mod task_controller;
 
 /// Strengthen text
