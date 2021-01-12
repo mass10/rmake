@@ -9,8 +9,14 @@ mod stopwatch;
 mod task_controller;
 
 /// Strengthen text
-fn make_bold(s: &str) -> String {
-	return format!("\x1b[1m{}\x1b[0m", s);
+///
+/// ### Arguments
+/// * `text` text
+///
+/// ### Returns
+/// Bold text
+fn make_bold(text: &str) -> String {
+	return format!("\x1b[1m{}\x1b[0m", text);
 }
 
 /// Shows usage
