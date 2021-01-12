@@ -11,7 +11,10 @@ pub struct Application {
 }
 
 impl Application {
-	/// Returns a new instance of Application.
+	/// Returns a new instance of `Application`.
+	///
+	/// ### Returns
+	/// A new instance of `Application`
 	pub fn new() -> Application {
 		let instance = Application { _x: 0 };
 		return instance;
@@ -42,6 +45,10 @@ impl Application {
 	}
 
 	/// Executes rmake.toml given.
+	///
+	/// ### Arguments
+	/// * `rmakefile_path` path to rmake file
+	/// * `target_task_name` Task to launch
 	pub fn start(&self, rmakefile_path: &str, target_task_name: &str) -> std::result::Result<(), Box<dyn std::error::Error>> {
 		// Stopwatch
 		let watch = stopwatch::Stopwatch::new();
