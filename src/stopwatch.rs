@@ -1,6 +1,9 @@
 /// Custom formatter for std::time::Duration
 trait MyDurationFormatter {
 	/// Format elapsed time.
+	///
+	/// ### Returns
+	/// * Formatted string
 	fn to_string(&self) -> String;
 }
 
@@ -29,11 +32,15 @@ impl MyDurationFormatter for std::time::Duration {
 
 /// Stopwatch
 pub struct Stopwatch {
+	/// Timestamp
 	time: std::time::Instant,
 }
 
 impl Stopwatch {
 	/// Return a new instance.
+	///
+	/// ### Returns
+	/// A new instance of `Stopwatch`
 	pub fn new() -> Stopwatch {
 		return Stopwatch { time: std::time::Instant::now() };
 	}
@@ -41,6 +48,9 @@ impl Stopwatch {
 
 impl std::fmt::Display for Stopwatch {
 	/// Format elapsed time.
+	///
+	/// ### Arguments
+	/// * `f` Target to write
 	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
 		let elapsed = std::time::Instant::now() - self.time;
 		write!(f, "{}", elapsed.to_string())?;
