@@ -15,6 +15,12 @@ pub struct TaskController {
 
 impl TaskController {
 	/// construction
+	///
+	/// ### Arguments
+	/// * `tasks` Tasks
+	///
+	/// ### Returns
+	/// A new instance of `TaskController`
 	pub fn new(tasks: Vec<configuration::Task>) -> TaskController {
 		// Duplicates task definitions
 		let mut new_tasks: Vec<Box<configuration::Task>> = vec![];
@@ -57,6 +63,12 @@ impl TaskController {
 	}
 
 	/// Execute a task
+	///
+	/// ### Arguments
+	/// * `task_name` Task to launch
+	///
+	/// ### Returns
+	/// Task result.
 	pub fn run(&mut self, task_name: &str) -> std::result::Result<bool, Box<dyn std::error::Error>> {
 		// Verify task status. Does not run a task twice.
 		{
