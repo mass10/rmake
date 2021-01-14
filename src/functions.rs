@@ -3,12 +3,18 @@ extern crate chrono;
 use super::application_error;
 
 /// Return system timestamp
+///
+/// ### Returns
+/// Timestamp as `String`
 pub fn get_timestamp() -> String {
 	let date = chrono::Local::now();
 	return format!("{}", date.format("%Y-%m-%d %H:%M:%S%.3f"));
 }
 
 /// Detect Windows OS
+///
+/// ### Returns
+/// true when Windows
 fn is_windows_os() -> std::result::Result<bool, Box<dyn std::error::Error>> {
 	let result = std::process::Command::new("cmd").arg("/C").arg("echo").arg("%OS%").output();
 	if result.is_err() {
@@ -24,6 +30,9 @@ fn is_windows_os() -> std::result::Result<bool, Box<dyn std::error::Error>> {
 }
 
 /// Detect Linux OS
+///
+/// ### Returns
+/// true when Linux
 fn is_linux_os() -> std::result::Result<bool, Box<dyn std::error::Error>> {
 	let result = std::process::Command::new("sh").arg("-c").arg("uname").output();
 	if result.is_err() {
@@ -39,6 +48,9 @@ fn is_linux_os() -> std::result::Result<bool, Box<dyn std::error::Error>> {
 }
 
 /// execute command in os shell
+///
+/// ### Returns
+/// exit code as `i32`
 pub fn shell_exec(commands: &String) -> std::result::Result<i32, Box<dyn std::error::Error>> {
 	// Try to execute command for Windows
 	if is_windows_os()? {
@@ -72,6 +84,9 @@ pub fn shell_exec(commands: &String) -> std::result::Result<i32, Box<dyn std::er
 }
 
 /// Retrieve the whole content of file
+///
+/// ### Returns
+/// Entire content of file as `String`
 pub fn read_text_file_all(path: &str) -> std::result::Result<String, Box<dyn std::error::Error>> {
 	use std::io::Read;
 
@@ -82,6 +97,9 @@ pub fn read_text_file_all(path: &str) -> std::result::Result<String, Box<dyn std
 }
 
 /// Returns right if left was empty
+///
+/// ### Returns
+/// right if left is empty
 pub fn select(left: &str, right: &str) -> String {
 	return match left {
 		"" => String::from(right),
@@ -90,6 +108,9 @@ pub fn select(left: &str, right: &str) -> String {
 }
 
 /// Split string at the first separator
+///
+/// ### Returns
+/// The left part and the latter
 pub fn split_string(s: &str, separator: &str) -> (String, String) {
 	let position = s.find(separator);
 	if position.is_none() {
