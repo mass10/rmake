@@ -19,6 +19,9 @@ pub struct Task {
 
 impl Task {
 	/// Returns name
+	///
+	/// ### Returns
+	/// Task name
 	pub fn get_name(&self) -> String {
 		if self.name.is_none() {
 			return String::new();
@@ -27,6 +30,9 @@ impl Task {
 	}
 
 	/// Returns description
+	///
+	/// ### Returns
+	/// Description of this
 	pub fn get_description(&self) -> String {
 		if self.description.is_none() {
 			return String::new();
@@ -35,6 +41,9 @@ impl Task {
 	}
 
 	/// Returns command and options
+	///
+	/// ### Returns
+	/// Command
 	pub fn get_command(&self) -> Vec<String> {
 		if self.command.is_none() {
 			return vec![];
@@ -44,6 +53,9 @@ impl Task {
 	}
 
 	/// Returns dependencies
+	///
+	/// ### Returns
+	/// Tasks this task depends on
 	pub fn get_depends_on(&self) -> Vec<String> {
 		if self.depends_on.is_none() {
 			let result: Vec<String> = vec![];
@@ -69,6 +81,12 @@ pub struct ConfigurationSettings {
 
 impl ConfigurationSettings {
 	/// Returns a new instance of ConfigurationSettings
+	///
+	/// ### Arguments
+	/// * `rmakefile_path` Path to rmake file
+	///
+	/// ### Returns
+	/// A new instance of `ConfigurationSettings`
 	pub fn new(rmakefile_path: &str) -> std::result::Result<ConfigurationSettings, Box<dyn std::error::Error>> {
 		extern crate toml;
 
