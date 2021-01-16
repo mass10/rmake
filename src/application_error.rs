@@ -3,7 +3,7 @@
 ///
 #[derive(Debug, Clone)]
 pub struct ApplicationError {
-	/// Error description
+	/// Description
 	pub description: String,
 }
 
@@ -16,6 +16,9 @@ impl ApplicationError {
 
 impl std::fmt::Display for ApplicationError {
 	/// Write description to formatter.
+	///
+	/// ### Arguments
+	/// * `f` Target to write
 	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::result::Result<(), std::fmt::Error> {
 		write!(f, "{}", self.description)
 	}
