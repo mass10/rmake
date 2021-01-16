@@ -1,13 +1,13 @@
 [package]
 name = "rmake"
-version = "0.1.28"
+version = "0.1.29"
 authors = ["Irisawa Masaru <irisawa.masaru@gmail.com>"]
 edition = "2018"
 license = "MIT"
 description = "A simple task runner like make"
 repository = "https://github.com/mass10/rmake/"
 documentation = "https://docs.rs/crate/rmake/"
-categories = ["development-tools::build-utils"]
+categories = ["command-line-utilities", "development-tools::build-utils"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
