@@ -1,6 +1,6 @@
 [package]
 name = "rmake"
-version = "0.1.24"
+version = "0.1.25"
 authors = ["Irisawa Masaru <irisawa.masaru@gmail.com>"]
 edition = "2018"
 license = "MIT"
@@ -20,3 +20,4 @@ chrono = "0.4.*"
 [[bin]]
 name = "rmake"
 test = false
+doc = true
