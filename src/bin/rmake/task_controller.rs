@@ -3,6 +3,17 @@ use super::functions;
 use super::status_holder;
 use super::stopwatch;
 
+/// Make command fixed if the command starts with exclamation("!").
+///
+/// ### Returns
+/// Original command string
+fn fix_command_string(command: &str) -> String {
+	if command.starts_with("!") {
+		return command[1..].to_string();
+	}
+	return command.to_string();
+}
+
 ///
 /// Task runner structure
 ///
@@ -111,11 +122,18 @@ impl TaskController {
 			// Stopwatch
 			let watch = stopwatch::Stopwatch::new();
 
-			for commands in target_task.get_command() {
-				let exit_code = functions::shell_exec(&commands)?;
+			for command in target_task.get_command() {
+				let is_safe_command = command.starts_with("!");
+				let command = fix_command_string(&command);
+				println!("{} rmake [INFO] executing command [{}]", functions::get_timestamp(), command);
+				let exit_code = functions::shell_exec(&command)?;
 				if exit_code != 0 {
-					println!("{} rmake [ERROR] command exited with status: [{}] ({})", functions::get_timestamp(), exit_code, watch);
-					return Ok(false);
+					if is_safe_command {
+						println!("{} rmake [WARN] command exited with status: [{}] ({})", functions::get_timestamp(), exit_code, watch);
+					} else {
+						println!("{} rmake [ERROR] command exited with status: [{}] ({})", functions::get_timestamp(), exit_code, watch);
+						return Ok(false);
+					}
 				}
 			}
 			println!();
