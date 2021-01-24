@@ -43,6 +43,8 @@ description = "anything"
 name = "default"
 depends_on = ["common"]
 command = [
+	"!MKDIR .tmp", # SAFE with "!"
+	"!DEL /S /Q .tmp\\*", # SAFE with "!"
 	"ECHO %MY_ENV_02%",
 	"ECHO {{MY_VAR_02}}",
 ]
