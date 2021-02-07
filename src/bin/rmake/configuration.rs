@@ -9,10 +9,13 @@ use super::functions;
 pub struct Task {
 	/// Its name
 	name: Option<String>,
+
 	/// Description
 	description: Option<String>,
+
 	/// Dependencies
 	depends_on: Option<Vec<String>>,
+
 	/// Command and options
 	command: Option<Vec<String>>,
 }
@@ -73,8 +76,10 @@ impl Task {
 pub struct ConfigurationSettings {
 	/// Environment variables
 	pub env: Option<std::collections::btree_map::BTreeMap<String, String>>,
+
 	/// Simple variables
 	pub variables: Option<std::collections::btree_map::BTreeMap<String, String>>,
+
 	/// Tasks definition
 	pub tasks: Vec<Task>,
 }
