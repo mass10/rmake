@@ -20,6 +20,7 @@ fn fix_command_string(command: &str) -> String {
 pub struct TaskController {
 	/// task definitions
 	tasks: Vec<Box<configuration::Task>>,
+
 	/// task statuses
 	task_status: status_holder::StatusHolder,
 }
