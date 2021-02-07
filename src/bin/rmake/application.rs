@@ -7,6 +7,7 @@ use super::task_controller;
 /// Application structure
 ///
 pub struct Application {
+	/// Dummy
 	_x: i32,
 }
 
