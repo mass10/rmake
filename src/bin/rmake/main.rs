@@ -78,6 +78,7 @@ fn version() {
 struct StartConfigurationSettings {
 	/// Path to rmake file
 	rmakefile_path: String,
+
 	/// Task name to execute
 	target_task: String,
 }
