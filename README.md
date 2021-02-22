@@ -29,32 +29,28 @@ rmake --help
 
 # rmake.toml is as
 
-```
+```toml
 [env]
 MY_ENV_01 = "Hello,"
-MY_ENV_02 = "World!"
 
 [variables]
-MY_VAR_01 = "01"
-MY_VAR_02 = "02"
+MY_VAR_02 = "World!"
 
 [[tasks]]
 description = "anything"
-name = "default"
-depends_on = ["common"]
+name = "world"
+depends_on = ["hello"]
 command = [
-	"!MKDIR .tmp", # SAFE with "!"
-	"!DEL /S /Q .tmp\\*", # SAFE with "!"
-	"ECHO %MY_ENV_02%",
 	"ECHO {{MY_VAR_02}}",
 ]
 
 [[tasks]]
 description = "anything"
-name = "common"
+name = "hello"
 depends_on = []
 command = [
+	"!MKDIR .tmp", # SAFE with "!"
+	"!DEL /S /Q .tmp\\*", # SAFE with "!"
 	"ECHO %MY_ENV_01%",
-	"ECHO {{MY_VAR_01}}",
 ]
 ```
