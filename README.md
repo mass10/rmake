@@ -1,4 +1,5 @@
-![build](https://github.com/mass10/rmake/workflows/build/badge.svg)
+[![Rust Application Build Workflow](https://github.com/mass10/rmake/actions/workflows/build.yml/badge.svg)](https://github.com/mass10/rmake/actions/workflows/build.yml)
+
 # About
 
 * A simple task runner like `make`.
