@@ -1,7 +1,6 @@
-use super::configuration;
-use super::functions;
-use super::status_holder;
-use super::stopwatch;
+use crate::configuration;
+use crate::helper;
+use crate::util;
 
 /// Make command fixed if the command starts with exclamation("!").
 ///
@@ -22,7 +21,7 @@ pub struct TaskController {
 	tasks: Vec<Box<configuration::Task>>,
 
 	/// task statuses
-	task_status: status_holder::StatusHolder,
+	task_status: helper::StatusHolder,
 }
 
 impl TaskController {
@@ -43,7 +42,7 @@ impl TaskController {
 		// Creating a new instance
 		let instance = TaskController {
 			tasks: new_tasks,
-			task_status: status_holder::StatusHolder::new(),
+			task_status: helper::StatusHolder::new(),
 		};
 
 		return instance;
@@ -63,6 +62,12 @@ impl TaskController {
 	}
 
 	/// Find task by its name
+	///
+	/// ### Arguments
+	/// * `name` task name
+	///
+	/// ### Returns
+	/// task
 	fn find_task(&mut self, name: &str) -> Option<&mut configuration::Task> {
 		// Enumerating tasks
 		for task in self.get_tasks() {
@@ -96,7 +101,7 @@ impl TaskController {
 			_ => self.find_task(task_name),
 		};
 		if result.is_none() {
-			println!("{} rmake [ERROR] Task not found. [{}]", functions::get_timestamp(), task_name);
+			println!("{} rmake [ERROR] Task not found. [{}]", util::functions::get_timestamp(), task_name);
 			return Ok(false);
 		}
 		let target_task = result.unwrap().clone();
@@ -105,7 +110,7 @@ impl TaskController {
 		{
 			for task in &target_task.get_depends_on() {
 				if !self.run(&task)? {
-					println!("{} rmake [ERROR] Task failed. Operation canceled.", functions::get_timestamp());
+					println!("{} rmake [ERROR] Task failed. Operation canceled.", util::functions::get_timestamp());
 					return Ok(false);
 				}
 			}
@@ -118,27 +123,27 @@ impl TaskController {
 			println!("name        : {}", target_task.get_name());
 			println!("description : {}", target_task.get_description());
 			println!("==============================================================================");
-			println!("{} rmake [INFO] executing task [{}] ...", functions::get_timestamp(), target_task.get_name());
+			println!("{} rmake [INFO] executing task [{}] ...", util::functions::get_timestamp(), target_task.get_name());
 
 			// Stopwatch
-			let watch = stopwatch::Stopwatch::new();
+			let watch = util::time::Stopwatch::new();
 
 			for command in target_task.get_command() {
 				let is_safe_command = command.starts_with("!");
 				let command = fix_command_string(&command);
-				println!("{} rmake [INFO] executing command [{}]", functions::get_timestamp(), command);
-				let exit_code = functions::shell_exec(&command)?;
+				println!("{} rmake [INFO] executing command [{}]", util::functions::get_timestamp(), command);
+				let exit_code = util::functions::shell_exec(&command)?;
 				if exit_code != 0 {
 					if is_safe_command {
-						println!("{} rmake [WARN] command exited with status: [{}] ({})", functions::get_timestamp(), exit_code, watch);
+						println!("{} rmake [WARN] command exited with status: [{}] ({})", util::functions::get_timestamp(), exit_code, watch);
 					} else {
-						println!("{} rmake [ERROR] command exited with status: [{}] ({})", functions::get_timestamp(), exit_code, watch);
+						println!("{} rmake [ERROR] command exited with status: [{}] ({})", util::functions::get_timestamp(), exit_code, watch);
 						return Ok(false);
 					}
 				}
 			}
 			println!();
-			println!("{} rmake [INFO] task [{}] terminated. ({})", functions::get_timestamp(), target_task.get_name(), watch);
+			println!("{} rmake [INFO] task [{}] terminated. ({})", util::functions::get_timestamp(), target_task.get_name(), watch);
 		}
 
 		// Mark task completed

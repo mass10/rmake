@@ -1,7 +1,6 @@
-use super::configuration;
-use super::functions;
-use super::stopwatch;
-use super::task_controller;
+use crate::application;
+use crate::configuration;
+use crate::util;
 
 ///
 /// Application structure
@@ -52,27 +51,27 @@ impl Application {
 	/// * `target_task_name` Task to launch
 	pub fn start(&self, rmakefile_path: &str, target_task_name: &str) -> std::result::Result<(), Box<dyn std::error::Error>> {
 		// Stopwatch
-		let watch = stopwatch::Stopwatch::new();
+		let watch = util::time::Stopwatch::new();
 
 		// shows banner
 		Application::show_banner();
 
-		println!("{} rmake [INFO] START", functions::get_timestamp());
+		println!("{} rmake [INFO] START", util::functions::get_timestamp());
 
 		// configuration
 		let conf = configuration::ConfigurationSettings::new(rmakefile_path);
 		if conf.is_err() {
-			println!("{} rmake [ERROR] Configuration failed. reason: [{}]", functions::get_timestamp(), conf.err().unwrap());
+			println!("{} rmake [ERROR] Configuration failed. reason: [{}]", util::functions::get_timestamp(), conf.err().unwrap());
 			return Ok(());
 		}
 		let conf = conf.ok().unwrap();
 
 		// execute tasks
-		let mut controller = task_controller::TaskController::new(conf.tasks);
+		let mut controller = application::task::TaskController::new(conf.tasks);
 		controller.run(target_task_name)?;
 
 		println!();
-		println!("{} rmake [INFO] END ({})", functions::get_timestamp(), watch);
+		println!("{} rmake [INFO] END ({})", util::functions::get_timestamp(), watch);
 
 		return Ok(());
 	}

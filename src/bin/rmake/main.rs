@@ -1,12 +1,13 @@
+//!
+//! Here is application entrypoint.
+//!
+
 extern crate serde_derive;
 
 mod application;
-mod application_error;
 mod configuration;
-mod functions;
-mod status_holder;
-mod stopwatch;
-mod task_controller;
+mod helper;
+mod util;
 
 /// Strengthen text
 ///
@@ -106,7 +107,7 @@ impl StartConfigurationSettings {
 				return Err("show version".to_string());
 			}
 			if e.starts_with("--file=") || e.starts_with("-f=") {
-				let (_, value) = functions::split_string(&e, "=");
+				let (_, value) = util::functions::split_string(&e, "=");
 				if value == "" {
 					return Err("show usage".to_string());
 				}
@@ -162,14 +163,14 @@ fn main() {
 	let conf = result.unwrap();
 
 	// Initialize application
-	let app = application::Application::new();
+	let app = application::core::Application::new();
 
 	// Run application.
 	// Configure with the rmake file given or "rmake.toml" at current directory. That is default file.
 	// Application will execute the task given or the first task in rmake file.
 	let result = app.start(&conf.rmakefile_path, &conf.target_task);
 	if result.is_err() {
-		println!("{} rmake [ERROR] Error! reason: [{}]", functions::get_timestamp(), result.err().unwrap());
+		println!("{} rmake [ERROR] Error! reason: [{}]", util::functions::get_timestamp(), result.err().unwrap());
 		return;
 	}
 }

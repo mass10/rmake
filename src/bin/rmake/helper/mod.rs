@@ -1,13 +1,19 @@
+//!
+//! Helpers
+//!
 ///
 /// Status holder
 ///
 pub struct StatusHolder {
-	///
+	/// Statuses.
 	status: std::collections::HashMap<String, String>,
 }
 
 impl StatusHolder {
 	/// Create a new instance.
+	///
+	/// ### Returns
+	/// A new instance of `StatusHolder`.
 	pub fn new() -> StatusHolder {
 		let instance = StatusHolder {
 			status: std::collections::HashMap::new(),

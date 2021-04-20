@@ -1,3 +1,7 @@
+//!
+//! Application defined errors
+//!
+
 ///
 /// Application defined error.
 ///
