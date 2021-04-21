@@ -1,3 +1,7 @@
+//!
+//! Time utilities
+//!
+
 /// Custom formatter for std::time::Duration
 trait MyDurationFormatter {
 	/// Format elapsed time.

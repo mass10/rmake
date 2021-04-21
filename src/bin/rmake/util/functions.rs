@@ -1,3 +1,7 @@
+//!
+//! Common operations
+//!
+
 extern crate chrono;
 
 use crate::application;
