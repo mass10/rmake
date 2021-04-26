@@ -56,5 +56,5 @@ command = [
 ]
 ```
 
-# FUTURE PLAN
-* Causes NO AFFECTS without modified files.
+# Future Plans
+* Build causes NO AFFECTS when no modified files found.
