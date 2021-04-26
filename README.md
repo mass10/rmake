@@ -55,3 +55,6 @@ command = [
 	"ECHO %MY_ENV_01%",
 ]
 ```
+
+# FUTURE PLAN
+* Causes NO AFFECTS without modified files.
