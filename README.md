@@ -55,3 +55,6 @@ command = [
 	"ECHO %MY_ENV_01%",
 ]
 ```
+
+# Future Plans
+* Build causes NO AFFECTS when no modified files found.
