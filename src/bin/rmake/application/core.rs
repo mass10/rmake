@@ -1,3 +1,7 @@
+//!
+//! Application core implementation
+//!
+
 use crate::application;
 use crate::configuration;
 use crate::util;
