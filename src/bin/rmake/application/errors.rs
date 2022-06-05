@@ -21,6 +21,8 @@ impl ApplicationError {
 impl std::fmt::Display for ApplicationError {
 	/// Write description to formatter.
 	///
+	/// Implements behavior as [std::fmt::Display].
+	///
 	/// ### Arguments
 	/// * `f` Target to write
 	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::result::Result<(), std::fmt::Error> {
@@ -30,6 +32,8 @@ impl std::fmt::Display for ApplicationError {
 
 impl std::error::Error for ApplicationError {
 	/// Description.
+	///
+	/// Implements behavior as [std::error::Error].
 	fn description(&self) -> &str {
 		&self.description
 	}
@@ -42,6 +46,8 @@ pub struct ShowVersion;
 impl std::fmt::Display for ShowVersion {
 	/// Write description to formatter.
 	///
+	/// Implements behavior as [std::fmt::Display].
+	///
 	/// ### Arguments
 	/// * `f` Target to write
 	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::result::Result<(), std::fmt::Error> {
@@ -51,6 +57,8 @@ impl std::fmt::Display for ShowVersion {
 
 impl std::error::Error for ShowVersion {
 	/// Description.
+	///
+	/// Implements behavior as [std::error::Error].
 	fn description(&self) -> &str {
 		return "ShowVersion";
 	}
@@ -63,6 +71,8 @@ pub struct ShowHelp;
 impl std::fmt::Display for ShowHelp {
 	/// Write description to formatter.
 	///
+	/// Implements behavior as [std::fmt::Display].
+	///
 	/// ### Arguments
 	/// * `f` Target to write
 	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::result::Result<(), std::fmt::Error> {
@@ -72,6 +82,8 @@ impl std::fmt::Display for ShowHelp {
 
 impl std::error::Error for ShowHelp {
 	/// Description.
+	///
+	/// Implements behavior as [std::error::Error].
 	fn description(&self) -> &str {
 		return "ShowHelp";
 	}
