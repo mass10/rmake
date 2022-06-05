@@ -34,3 +34,45 @@ impl std::error::Error for ApplicationError {
 		&self.description
 	}
 }
+
+/// Shows application version.
+#[derive(Debug, Clone)]
+pub struct ShowVersion;
+
+impl std::fmt::Display for ShowVersion {
+	/// Write description to formatter.
+	///
+	/// ### Arguments
+	/// * `f` Target to write
+	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::result::Result<(), std::fmt::Error> {
+		write!(f, "ShowVersion")
+	}
+}
+
+impl std::error::Error for ShowVersion {
+	/// Description.
+	fn description(&self) -> &str {
+		return "ShowVersion";
+	}
+}
+
+/// Shows application help.
+#[derive(Debug, Clone)]
+pub struct ShowHelp;
+
+impl std::fmt::Display for ShowHelp {
+	/// Write description to formatter.
+	///
+	/// ### Arguments
+	/// * `f` Target to write
+	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::result::Result<(), std::fmt::Error> {
+		write!(f, "ShowHelp")
+	}
+}
+
+impl std::error::Error for ShowHelp {
+	/// Description.
+	fn description(&self) -> &str {
+		return "ShowHelp";
+	}
+}
