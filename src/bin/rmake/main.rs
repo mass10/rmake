@@ -5,10 +5,11 @@
 extern crate serde_derive;
 
 mod application;
-use application::errors::{ShowHelp, ShowVersion};
 mod configuration;
 mod helper;
 mod util;
+
+use application::errors::{ShowHelp, ShowVersion};
 
 /// Strengthen text
 ///
