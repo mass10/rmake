@@ -2,11 +2,10 @@
 //! Here is application entrypoint.
 //!
 
-use application::errors::{ShowHelp, ShowVersion};
-
 extern crate serde_derive;
 
 mod application;
+use application::errors::{ShowHelp, ShowVersion};
 mod configuration;
 mod helper;
 mod util;
@@ -71,7 +70,7 @@ fn version() {
 	println!();
 	println!("{} {}", env!("CARGO_PKG_NAME"), env!("CARGO_PKG_VERSION"));
 	println!();
-	println!("{}", "https://crates.io/crates/make");
+	println!("https://crates.io/crates/make");
 }
 
 ///
@@ -110,7 +109,7 @@ impl StartConfigurationSettings {
 			if e.starts_with("--file=") || e.starts_with("-f=") {
 				let (_, value) = util::functions::split_string(&e, "=");
 				if value == "" {
-					return Err(Box::new(ShowHelp {}));
+					return Err(Box::new(ShowHelp));
 				}
 				conf.rmakefile_path = value;
 				continue;
@@ -122,8 +121,9 @@ impl StartConfigurationSettings {
 			if e.starts_with("-") {
 				// Unknown option flag given.
 				current_option.clear();
-				println!("Unknown option {}", e);
-				return Err(Box::new(ShowHelp {}));
+				println!("\x1b[31mERROR: Unknown option {}\x1b[39m", e);
+				println!();
+				return Err(Box::new(ShowHelp));
 			}
 
 			if current_option == "--file" || current_option == "-f" {
@@ -139,7 +139,7 @@ impl StartConfigurationSettings {
 
 		if current_option != "" {
 			// No values followed option flag.
-			return Err(Box::new(ShowHelp {}));
+			return Err(Box::new(ShowHelp));
 		}
 
 		// Configuration valid.
@@ -147,17 +147,25 @@ impl StartConfigurationSettings {
 	}
 }
 
+/// Reports error.
+fn report_error(error: Box<dyn std::error::Error>) {
+	if error.is::<ShowHelp>() {
+		usage();
+		return;
+	}
+	if error.is::<ShowVersion>() {
+		version();
+		return;
+	}
+	println!("[ERROR] {:?}", error);
+}
+
 /// Entrypoint
 fn main() {
 	// read commandline options
 	let result = StartConfigurationSettings::configure();
 	if result.is_err() {
-		let error = result.err().unwrap();
-		if error.is::<ShowHelp>() {
-			usage();
-		} else if error.is::<ShowVersion>() {
-			version();
-		}
+		report_error(result.err().unwrap());
 		return;
 	}
 
