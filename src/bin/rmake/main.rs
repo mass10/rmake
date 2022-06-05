@@ -2,6 +2,8 @@
 //! Here is application entrypoint.
 //!
 
+use application::errors::{ShowHelp, ShowVersion};
+
 extern crate serde_derive;
 
 mod application;
@@ -85,7 +87,7 @@ struct StartConfigurationSettings {
 
 impl StartConfigurationSettings {
 	/// Reads commandline options
-	pub fn configure() -> std::result::Result<StartConfigurationSettings, String> {
+	pub fn configure() -> std::result::Result<StartConfigurationSettings, Box<dyn std::error::Error>> {
 		// start configuration
 		let mut conf = StartConfigurationSettings {
 			target_task: String::new(),
@@ -100,15 +102,15 @@ impl StartConfigurationSettings {
 		// Reading tokens
 		for e in args {
 			if e == "--help" || e == "-h" {
-				return Err("show usage".to_string());
+				return Err(Box::new(ShowHelp));
 			}
 			if e == "--version" || e == "-v" {
-				return Err("show version".to_string());
+				return Err(Box::new(ShowVersion));
 			}
 			if e.starts_with("--file=") || e.starts_with("-f=") {
 				let (_, value) = util::functions::split_string(&e, "=");
 				if value == "" {
-					return Err("show usage".to_string());
+					return Err(Box::new(ShowHelp {}));
 				}
 				conf.rmakefile_path = value;
 				continue;
@@ -121,7 +123,7 @@ impl StartConfigurationSettings {
 				// Unknown option flag given.
 				current_option.clear();
 				println!("Unknown option {}", e);
-				return Err("show usage".to_string());
+				return Err(Box::new(ShowHelp {}));
 			}
 
 			if current_option == "--file" || current_option == "-f" {
@@ -137,7 +139,7 @@ impl StartConfigurationSettings {
 
 		if current_option != "" {
 			// No values followed option flag.
-			return Err("show usage".to_string());
+			return Err(Box::new(ShowHelp {}));
 		}
 
 		// Configuration valid.
@@ -150,10 +152,10 @@ fn main() {
 	// read commandline options
 	let result = StartConfigurationSettings::configure();
 	if result.is_err() {
-		let result_string = result.err().unwrap();
-		if result_string == "show usage" {
+		let error = result.err().unwrap();
+		if error.is::<ShowHelp>() {
 			usage();
-		} else if result_string == "show version" {
+		} else if error.is::<ShowVersion>() {
 			version();
 		}
 		return;
