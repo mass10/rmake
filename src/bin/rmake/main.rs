@@ -75,7 +75,6 @@ fn version() {
 ///
 /// Commandline options
 ///
-#[derive(Clone)]
 struct StartConfigurationSettings {
 	/// Path to rmake file
 	rmakefile_path: String,
