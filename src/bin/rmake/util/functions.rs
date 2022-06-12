@@ -31,17 +31,10 @@ fn is_windows_os() -> std::result::Result<bool, Box<dyn std::error::Error>> {
 /// ### Returns
 /// true when Linux
 fn is_linux_os() -> std::result::Result<bool, Box<dyn std::error::Error>> {
-	let result = std::process::Command::new("sh").arg("-c").arg("uname").output();
-	if result.is_err() {
-		// cannot create command
-		return Ok(false);
+	if cfg!(linux) {
+		return Ok(true);
 	}
-	let output = result.unwrap();
-	let output = String::from_utf8(output.stdout.to_vec())?;
-	if !output.contains("Linux") {
-		return Ok(false);
-	}
-	return Ok(true);
+	return Ok(false);
 }
 
 /// execute command in os shell
