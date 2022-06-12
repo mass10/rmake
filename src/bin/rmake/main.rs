@@ -173,7 +173,7 @@ fn main() {
 	let conf = result.unwrap();
 
 	// Initialize application
-	let app = application::core::Application::new();
+	let app = application::Application::new();
 
 	// Run application.
 	// Configure with the rmake file given or "rmake.toml" at current directory. That is default file.
