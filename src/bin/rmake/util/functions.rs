@@ -20,17 +20,10 @@ pub fn get_timestamp() -> String {
 /// ### Returns
 /// true when Windows
 fn is_windows_os() -> std::result::Result<bool, Box<dyn std::error::Error>> {
-	let result = std::process::Command::new("cmd").arg("/C").arg("echo").arg("%OS%").output();
-	if result.is_err() {
-		// cannot create command
-		return Ok(false);
+	if cfg!(windows) {
+		return Ok(true);
 	}
-	let output = result.unwrap();
-	let output = String::from_utf8(output.stdout.to_vec())?;
-	if !output.contains("Windows") {
-		return Ok(false);
-	}
-	return Ok(true);
+	return Ok(false);
 }
 
 /// Detect Linux OS
