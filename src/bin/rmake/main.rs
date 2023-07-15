@@ -13,10 +13,10 @@ use application::errors::{ShowHelp, ShowVersion};
 
 /// Strengthen text
 ///
-/// ### Arguments
+/// # Arguments
 /// * `text` text
 ///
-/// ### Returns
+/// # Returns
 /// Bold text
 fn make_bold(text: &str) -> String {
 	return format!("\x1b[1m{}\x1b[0m", text);
