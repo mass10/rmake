@@ -20,7 +20,7 @@ pub struct Application {
 impl Application {
 	/// Returns a new instance of `Application`.
 	///
-	/// ### Returns
+	/// # Returns
 	/// A new instance of `Application`
 	pub fn new() -> Application {
 		let instance = Application { _x: 0 };
@@ -53,7 +53,7 @@ impl Application {
 
 	/// Executes rmake.toml given.
 	///
-	/// ### Arguments
+	/// # Arguments
 	/// * `rmakefile_path` path to rmake file
 	/// * `target_task_name` Task to launch
 	pub fn start(&self, rmakefile_path: &str, target_task_name: &str) -> std::result::Result<(), Box<dyn std::error::Error>> {
