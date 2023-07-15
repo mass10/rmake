@@ -12,7 +12,7 @@ pub struct StatusHolder {
 impl StatusHolder {
 	/// Create a new instance.
 	///
-	/// ### Returns
+	/// # Returns
 	/// A new instance of `StatusHolder`.
 	pub fn new() -> StatusHolder {
 		let instance = StatusHolder {
@@ -23,7 +23,7 @@ impl StatusHolder {
 
 	/// Return mutable reference to the internal collection.
 	///
-	/// ### Returns
+	/// # Returns
 	/// Mutable reference to the internal collection.
 	#[allow(unused)]
 	pub fn get_map(&mut self) -> &mut std::collections::HashMap<String, String> {
@@ -32,7 +32,7 @@ impl StatusHolder {
 
 	/// Set task status.
 	///
-	/// ### Arguments
+	/// # Arguments
 	/// * `name` Task name
 	/// * `status` Task status
 	pub fn set_status(&mut self, name: &str, status: &str) {
@@ -41,10 +41,10 @@ impl StatusHolder {
 
 	/// Return task status.
 	///
-	/// ### Arguments
+	/// # Arguments
 	/// * `name` Task name
 	///
-	/// ### Returns
+	/// # Returns
 	/// The status of task named `name`
 	pub fn get_status(&mut self, name: &str) -> String {
 		let status = self.status.get(&name.to_string());
