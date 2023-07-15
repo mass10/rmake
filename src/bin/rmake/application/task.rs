@@ -4,7 +4,7 @@ use crate::util;
 
 /// Make command fixed if the command starts with exclamation("!").
 ///
-/// ### Returns
+/// # Returns
 /// Original command string
 fn fix_command_string(command: &str) -> String {
 	if command.starts_with("!") {
@@ -27,10 +27,10 @@ pub struct TaskController {
 impl TaskController {
 	/// construction
 	///
-	/// ### Arguments
+	/// # Arguments
 	/// * `tasks` Tasks
 	///
-	/// ### Returns
+	/// # Returns
 	/// A new instance of `TaskController`
 	pub fn new(tasks: Vec<configuration::Task>) -> TaskController {
 		// Duplicates task definitions
@@ -63,10 +63,10 @@ impl TaskController {
 
 	/// Find task by its name
 	///
-	/// ### Arguments
+	/// # Arguments
 	/// * `name` task name
 	///
-	/// ### Returns
+	/// # Returns
 	/// task
 	fn find_task(&mut self, name: &str) -> Option<&mut configuration::Task> {
 		// Enumerating tasks
@@ -81,10 +81,10 @@ impl TaskController {
 
 	/// Execute a task
 	///
-	/// ### Arguments
+	/// # Arguments
 	/// * `task_name` Task to launch
 	///
-	/// ### Returns
+	/// # Returns
 	/// Task result.
 	pub fn run(&mut self, task_name: &str) -> std::result::Result<bool, Box<dyn std::error::Error>> {
 		// Verify task status. Does not run a task twice.
