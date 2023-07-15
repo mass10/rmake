@@ -23,7 +23,7 @@ impl std::fmt::Display for ApplicationError {
 	///
 	/// Implements behavior as [std::fmt::Display].
 	///
-	/// ### Arguments
+	/// # Arguments
 	/// * `f` Target to write
 	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::result::Result<(), std::fmt::Error> {
 		write!(f, "{}", self.description)
@@ -48,7 +48,7 @@ impl std::fmt::Display for ShowVersion {
 	///
 	/// Implements behavior as [std::fmt::Display].
 	///
-	/// ### Arguments
+	/// # Arguments
 	/// * `f` Target to write
 	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::result::Result<(), std::fmt::Error> {
 		write!(f, "ShowVersion")
@@ -73,7 +73,7 @@ impl std::fmt::Display for ShowHelp {
 	///
 	/// Implements behavior as [std::fmt::Display].
 	///
-	/// ### Arguments
+	/// # Arguments
 	/// * `f` Target to write
 	fn fmt(&self, f: &mut std::fmt::Formatter) -> std::result::Result<(), std::fmt::Error> {
 		write!(f, "ShowHelp")
