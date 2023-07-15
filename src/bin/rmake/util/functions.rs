@@ -8,7 +8,7 @@ use crate::application;
 
 /// Return system timestamp
 ///
-/// ### Returns
+/// # Returns
 /// Timestamp as `String`
 pub fn get_timestamp() -> String {
 	let date = chrono::Local::now();
@@ -17,7 +17,7 @@ pub fn get_timestamp() -> String {
 
 /// Detect Windows OS
 ///
-/// ### Returns
+/// # Returns
 /// true when Windows
 fn is_windows_os() -> std::result::Result<bool, Box<dyn std::error::Error>> {
 	if cfg!(windows) {
@@ -28,7 +28,7 @@ fn is_windows_os() -> std::result::Result<bool, Box<dyn std::error::Error>> {
 
 /// Detect Linux OS
 ///
-/// ### Returns
+/// # Returns
 /// true when Linux
 fn is_linux_os() -> std::result::Result<bool, Box<dyn std::error::Error>> {
 	if cfg!(linux) {
@@ -39,7 +39,7 @@ fn is_linux_os() -> std::result::Result<bool, Box<dyn std::error::Error>> {
 
 /// execute command in os shell
 ///
-/// ### Returns
+/// # Returns
 /// exit code as `i32`
 pub fn shell_exec(commands: &String) -> std::result::Result<i32, Box<dyn std::error::Error>> {
 	// Try to execute command for Windows
@@ -75,7 +75,7 @@ pub fn shell_exec(commands: &String) -> std::result::Result<i32, Box<dyn std::er
 
 /// Retrieve the whole content of file
 ///
-/// ### Returns
+/// # Returns
 /// Entire content of file as `String`
 pub fn read_text_file_all(path: &str) -> std::result::Result<String, Box<dyn std::error::Error>> {
 	use std::io::Read;
@@ -88,7 +88,7 @@ pub fn read_text_file_all(path: &str) -> std::result::Result<String, Box<dyn std
 
 /// Returns right if left was empty
 ///
-/// ### Returns
+/// # Returns
 /// right if left is empty
 pub fn select(left: &str, right: &str) -> String {
 	return match left {
@@ -99,7 +99,7 @@ pub fn select(left: &str, right: &str) -> String {
 
 /// Split string at the first separator
 ///
-/// ### Returns
+/// # Returns
 /// The left part and the latter
 pub fn split_string(s: &str, separator: &str) -> (String, String) {
 	let position = s.find(separator);
